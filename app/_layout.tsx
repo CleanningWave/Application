@@ -4,7 +4,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
+import MainLayout from "./layouts/MainLayout";
+import ResultLayout from "./layouts/ResultLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -15,6 +17,7 @@ export default function RootLayout() {
     Bold: require("../assets/fonts/Inter-Bold.otf"),
     ExtraBold: require("../assets/fonts/Inter-ExtraBold.otf"),
     ExtraLight: require("../assets/fonts/Inter-ExtraLight.otf"),
+
     Light: require("../assets/fonts/Inter-Light.otf"),
     Medium: require("../assets/fonts/Inter-Medium.otf"),
     Regular: require("../assets/fonts/Inter-Regular.otf"),
@@ -34,7 +37,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <Text>Hello World</Text>
+      <MainLayout />
     </ThemeProvider>
   );
 }
