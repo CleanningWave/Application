@@ -1,10 +1,10 @@
-import { Text, View } from "react-native";
+import Logo from "@/components/Logo";
 import styled from "styled-components/native";
 
 const MainLayout = () => {
   return (
     <MainContainer>
-      <Text>MainLayout</Text>
+      <Logo />
     </MainContainer>
   );
 };
@@ -16,5 +16,4 @@ const MainContainer = styled.View`
   align-items: center;
   justify-content: center;
   flex: 1;
-  background-color: aliceblue;
 `;

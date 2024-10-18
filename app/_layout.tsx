@@ -4,9 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import { ScrollView, Text } from "react-native";
 import MainLayout from "./layouts/MainLayout";
-import ResultLayout from "./layouts/ResultLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
