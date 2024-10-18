@@ -1,13 +1,19 @@
 import { Colors } from "@/constants/Colors";
-import { Text } from "react-native";
 import styled from "styled-components/native";
 
-const Logo = () => {
+interface LogoProps {
+  isSubTitle?: boolean;
+}
+
+const Logo = ({ isSubTitle = false }: LogoProps) => {
   return (
     <LogoContainer>
-      <LogoText>Cleaning&nbsp;</LogoText>
-      <LogoPointText>W</LogoPointText>
-      <LogoText>ave</LogoText>
+      <MainLogoContainer>
+        <LogoText>Cleaning&nbsp;</LogoText>
+        <LogoPointText>W</LogoPointText>
+        <LogoText>ave</LogoText>
+      </MainLogoContainer>
+      {isSubTitle && <SubLogoText>클리닝 웨이브</SubLogoText>}
     </LogoContainer>
   );
 };
@@ -16,6 +22,12 @@ export default Logo;
 
 const LogoContainer = styled.View`
   display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MainLogoContainer = styled.View`
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -23,12 +35,20 @@ const LogoContainer = styled.View`
 
 const LogoPointText = styled.Text`
   font-family: "ExtraBold";
-  font-size: 36;
+  font-size: 36px;
   color: ${Colors.highlight.highlight_0};
 `;
 
 const LogoText = styled.Text`
   font-family: "ExtraBold";
-  font-size: 36;
+  font-size: 36px;
+  color: ${Colors.text};
+`;
+
+const SubLogoText = styled.Text`
+  margin-top: 4px;
+
+  font-family: "Thin";
+  font-size: 20px;
   color: ${Colors.text};
 `;
