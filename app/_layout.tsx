@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import MainLayout from "./layouts/MainLayout";
+import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +36,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <MainLayout />
+      <BeforeLoginLayout />
+      {/* <MainLayout /> */}
     </ThemeProvider>
   );
 }

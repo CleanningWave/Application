@@ -49,6 +49,6 @@ const SubLogoText = styled.Text`
   margin-top: 4px;
 
   font-family: "Thin";
-  font-size: 20px;
+  font-size: 26px;
   color: ${Colors.text};
 `;
