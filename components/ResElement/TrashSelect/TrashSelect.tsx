@@ -3,7 +3,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
-const TrashSelect = () => {
+const TrashSelectButton = () => {
   return (
     <View>
       <SelectContainer>
@@ -20,7 +20,7 @@ const TrashSelect = () => {
   );
 };
 
-export default TrashSelect;
+export default TrashSelectButton;
 
 const SelectArrow = styled.View`
   align-items: center;

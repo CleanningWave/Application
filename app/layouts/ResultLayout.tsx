@@ -6,14 +6,9 @@ import ResElement from "@/components/ResElement";
 import CollectInput from "@/components/ResElement/CollectInput";
 import OnlyText from "@/components/ResElement/OnlyText";
 import PickupRadio from "@/components/ResElement/PickupRadio";
-import TrashSelect from "@/components/ResElement/TrashSelect";
-import {
-  ScrollView,
-  Text,
-  Platform,
-  StatusBar,
-  Dimensions,
-} from "react-native";
+import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
+import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
+import { ScrollView, Platform, StatusBar, Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const ResultLayout = () => {
@@ -33,7 +28,7 @@ const ResultLayout = () => {
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement title={"쓰레기 분류"}>
-              <TrashSelect />
+              <TrashSelectButton />
             </ResElement>
             <ResElement title={"직접 수거 여부"}>
               <PickupRadio />
@@ -50,7 +45,7 @@ const ResultLayout = () => {
       </ScrollView>
 
       <BottomSheet buttonHandler={buttonHandler}>
-        <Text>BottomSheet</Text>
+        <TrashSelectChildren selected={["GLASS"]} />
       </BottomSheet>
     </Container>
   );
