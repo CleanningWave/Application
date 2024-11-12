@@ -13,10 +13,18 @@ const BeforeLoginLayout = () => {
       <Explain>{`우리 동네 바닷가,\n내 손으로 깨끗하게 만들어요!`}</Explain>
       <IconContainer source={mainIcon} />
       <ButtonContainer>
-        <DefaultBtn isPrimary={true} margin={'0 0 20px 0'}>로그인하기</DefaultBtn>
-        <DefaultBtn isColored={false} fontSize={24}>
-          회원가입하기
-        </DefaultBtn>
+        <DefaultBtn
+          isPrimary={true}
+          contents="로그인하기"
+          margin={"0 0 20px 0"}
+          handler={() => {}}
+        />
+        <DefaultBtn
+          isColored={false}
+          fontSize={24}
+          contents="회원가입 하기"
+          handler={() => {}}
+        />
       </ButtonContainer>
     </Container>
   );

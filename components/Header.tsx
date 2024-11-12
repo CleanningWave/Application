@@ -6,31 +6,23 @@ import { Colors } from "@/constants/Colors";
 
 interface HeaderProps {
   title: string;
-  showBackButton?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
 }
 
-const Header = ({
-  title,
-  showBackButton = true,
-  containerStyle,
-  titleStyle,
-}: HeaderProps) => {
+const Header = ({ title, containerStyle, titleStyle }: HeaderProps) => {
   const navigation = useNavigation();
 
   return (
     <Container style={containerStyle}>
       <LeftSection>
-        {showBackButton && (
-          <BackButton onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="chevron-back"
-              size={24}
-              color={Colors.highlight.highlight_0}
-            />
-          </BackButton>
-        )}
+        <BackButton onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="chevron-back"
+            size={24}
+            color={Colors.highlight.highlight_0}
+          />
+        </BackButton>
       </LeftSection>
 
       <CenterSection>
@@ -49,7 +41,6 @@ const Container = styled.View`
   justify-content: space-between;
   padding: 0 10px;
   border-bottom-width: 1px;
-  border-bottom-color: #eeeeee;
 `;
 
 const LeftSection = styled.View`

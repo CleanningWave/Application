@@ -1,7 +1,7 @@
 import MiniBtn from "../Button/MiniBtn";
 import FlexView from "../FlexView";
 
-const SelectRadio = () => {
+const PickupRadio = () => {
   return (
     <FlexView direction="row" gapHorizental={8}>
       <MiniBtn isSelected={true} content={"직접 수거"} />
@@ -10,4 +10,4 @@ const SelectRadio = () => {
   );
 };
 
-export default SelectRadio;
+export default PickupRadio;
