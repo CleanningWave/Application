@@ -3,6 +3,7 @@ import FlexView from "@/components/FlexView";
 import Header from "@/components/Header";
 import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
+import SelectRadio from "@/components/ResElement/SelectRadio";
 import { Text, View } from "react-native";
 import styled from "styled-components/native";
 
@@ -16,7 +17,7 @@ const ResultLayout = () => {
             <Text>Component A</Text>
           </ResElement>
           <ResElement title={"직접 수거 여부"}>
-            <Text>Component B</Text>
+            <SelectRadio />
           </ResElement>
           <ResElement title={"수거 자류 개수"}>
             <Text>Component C</Text>
