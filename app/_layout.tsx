@@ -4,7 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import MainLayout from "./layouts/MainLayout";
+import AfterLoginLayout from "./layouts/AfterLoginLayout";
 import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -36,8 +36,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <BeforeLoginLayout />
-      {/* <MainLayout /> */}
+      {/* <BeforeLoginLayout /> */}
+      <AfterLoginLayout />
     </ThemeProvider>
   );
 }

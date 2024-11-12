@@ -27,7 +27,7 @@ export default BeforeLoginLayout;
 const Explain = styled.Text`
   width: 100%;
   text-align: center;
-  margin: 30px 0 0 0;
+  margin: 20px 0 0 0;
 
   font-family: "Regular";
   font-size: 24px;
