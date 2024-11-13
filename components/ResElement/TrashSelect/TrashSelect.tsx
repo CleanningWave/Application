@@ -3,10 +3,14 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { View } from "react-native";
 import styled from "styled-components/native";
 
-const TrashSelectButton = () => {
+interface TrashSelectButton {
+  handler: () => void;
+}
+
+const TrashSelectButton = ({ handler }: TrashSelectButton) => {
   return (
     <View>
-      <SelectContainer>
+      <SelectContainer onPress={handler}>
         <SelectContents>유리</SelectContents>
         <SelectArrow>
           <Entypo

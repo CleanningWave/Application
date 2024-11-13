@@ -8,13 +8,30 @@ import OnlyText from "@/components/ResElement/OnlyText";
 import PickupRadio from "@/components/ResElement/PickupRadio";
 import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
 import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
+import { useState } from "react";
 import { ScrollView, Platform, StatusBar, Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const ResultLayout = () => {
+  const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
+
+  const openSelect = () => setIsSelectOpen(true);
+
+  const closeSelect = () => setIsSelectOpen(false);
+
   const buttonHandler: Array<buttonHandlerObj> = [
-    { title: "재선택 닫기", isPrimary: false, handler: () => {} },
-    { title: "재선택 하기", isPrimary: true, handler: () => {} },
+    {
+      title: "재선택 닫기",
+      isPrimary: false,
+      handler: closeSelect,
+    },
+    {
+      title: "재선택 하기",
+      isPrimary: true,
+      handler: () => {
+        closeSelect();
+      },
+    },
   ];
 
   return (
@@ -28,7 +45,7 @@ const ResultLayout = () => {
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement title={"쓰레기 분류"}>
-              <TrashSelectButton />
+              <TrashSelectButton handler={openSelect} />
             </ResElement>
             <ResElement title={"직접 수거 여부"}>
               <PickupRadio />
@@ -44,7 +61,7 @@ const ResultLayout = () => {
         </ResElementContainer>
       </ScrollView>
 
-      <BottomSheet buttonHandler={buttonHandler}>
+      <BottomSheet isVisible={isSelectOpen} buttonHandler={buttonHandler}>
         <TrashSelectChildren selected={["GLASS"]} />
       </BottomSheet>
     </Container>
@@ -55,7 +72,6 @@ export default ResultLayout;
 
 const Container = styled.View`
   padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
-  background-color: #ffffff;
   height: ${Dimensions.get("window").height}px;
 `;
 

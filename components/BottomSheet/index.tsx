@@ -12,30 +12,37 @@ export type buttonHandlerObj = {
 
 interface BottomSheetProps extends PropsWithChildren {
   buttonHandler: Array<buttonHandlerObj>;
+  isVisible: boolean;
 }
 
-const BottomSheet = ({ buttonHandler, children }: BottomSheetProps) => {
+const BottomSheet = ({
+  isVisible,
+  buttonHandler,
+  children,
+}: BottomSheetProps) => {
   return (
-    <Wrapper>
-      <Dim />
-      <BottomSheetContainer>
-        <ChildrenCotainer>{children}</ChildrenCotainer>
-        <ButtonCotainer>
-          <FlexView direction={"row"} gapHorizental={8}>
-            {buttonHandler.map((el) => (
-              <DefaultBtn
-                contents={el.title}
-                isPrimary={el.isPrimary}
-                fontSize={24}
-                width={168}
-                height={50}
-                handler={el.handler}
-              />
-            ))}
-          </FlexView>
-        </ButtonCotainer>
-      </BottomSheetContainer>
-    </Wrapper>
+    isVisible && (
+      <Wrapper>
+        <Dim />
+        <BottomSheetContainer>
+          <ChildrenCotainer>{children}</ChildrenCotainer>
+          <ButtonCotainer>
+            <FlexView direction={"row"} gapHorizental={8}>
+              {buttonHandler.map((el) => (
+                <DefaultBtn
+                  contents={el.title}
+                  isPrimary={el.isPrimary}
+                  fontSize={24}
+                  width={168}
+                  height={50}
+                  handler={el.handler}
+                />
+              ))}
+            </FlexView>
+          </ButtonCotainer>
+        </BottomSheetContainer>
+      </Wrapper>
+    )
   );
 };
 

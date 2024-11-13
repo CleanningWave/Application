@@ -15,6 +15,7 @@ const TrashSelectChildren = ({ selected }: TrashSelectChildrenProps) => {
         {(Object.keys(TRASH_TYPES) as Array<keyof typeof TRASH_TYPES>).map(
           (t) => (
             <MiniBtn
+              key={t}
               content={TRASH_TYPES[t]}
               isSelected={selected.includes(t)}
             />

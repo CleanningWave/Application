@@ -40,7 +40,6 @@ const Container = styled.View`
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
-  border-bottom-width: 1px;
 `;
 
 const LeftSection = styled.View`
