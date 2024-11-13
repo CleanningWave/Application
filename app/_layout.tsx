@@ -8,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AfterLoginLayout from "./layouts/AfterLoginLayout";
 import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 import ResultLayout from "./layouts/ResultLayout";
+import HistoryLayout from "./layouts/HistoryLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,7 +42,8 @@ export default function RootLayout() {
       <SafeAreaView edges={["top"]}>
         {/* <BeforeLoginLayout /> */}
         {/* <AfterLoginLayout /> */}
-        <ResultLayout />
+        {/* <ResultLayout /> */}
+        <HistoryLayout />
       </SafeAreaView>
     </ThemeProvider>
   );
