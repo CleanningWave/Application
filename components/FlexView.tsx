@@ -4,7 +4,8 @@ import styled from "styled-components/native";
 
 export interface FlexViewProps {
   children: ReactNode;
-
+  direction?: "column" | "row";
+  wrap?: "wrap" | "nowrap";
   gapHorizental?: number;
   gapVertical?: number;
 }
@@ -32,7 +33,8 @@ const FlexView = (props: FlexViewProps) => {
 export default FlexView;
 
 export const FlexViewStyled = styled.View<FlexViewProps>`
-  display: flex;
+  flex-direction: ${({ direction }) => direction || "column"};
+  flex-wrap: ${({ wrap }) => wrap || "nowrap"};
   margin: ${(props) =>
     `-${(props.gapVertical || 0) / 2}px -${(props.gapHorizental || 0) / 2}px`};
 `;

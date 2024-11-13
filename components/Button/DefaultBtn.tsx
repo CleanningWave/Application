@@ -1,12 +1,15 @@
 import { Colors } from "@/constants/Colors";
-import { PropsWithChildren } from "react";
 import styled from "styled-components/native";
 
-interface DefaultBtnProps extends PropsWithChildren {
+interface DefaultBtnProps {
+  contents: string;
+  handler: () => void;
   margin?: string;
   isColored?: boolean;
   isPrimary?: boolean;
   fontSize?: number;
+  width?: number;
+  height?: number;
 }
 
 const getStyles = (isColored: boolean, isPrimary: boolean) => {
@@ -25,18 +28,28 @@ const getStyles = (isColored: boolean, isPrimary: boolean) => {
 };
 
 const DefaultBtn = ({
-  children,
+  contents,
+  handler,
   margin = "0",
   isColored = true,
   isPrimary = isColored,
   fontSize = 36,
+  width = 312,
+  height = 60,
 }: DefaultBtnProps) => {
   const { line, bg, ft } = getStyles(isColored, isPrimary);
 
   return (
-    <BtnContainer $margin={margin} $line={line} $bg={bg}>
+    <BtnContainer
+      onPress={handler}
+      $width={width}
+      $height={height}
+      $margin={margin}
+      $line={line}
+      $bg={bg}
+    >
       <BtnContents $ft={ft} $size={fontSize}>
-        {children}
+        {contents}
       </BtnContents>
     </BtnContainer>
   );
@@ -51,6 +64,8 @@ const BtnContents = styled.Text<{ $ft: string; $size: number }>`
 `;
 
 const BtnContainer = styled.TouchableOpacity<{
+  $width: number;
+  $height: number;
   $line: string;
   $bg: string;
   $margin: string;
@@ -59,8 +74,8 @@ const BtnContainer = styled.TouchableOpacity<{
   align-items: center;
   justify-content: center;
 
-  width: 312px;
-  height: 60px;
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
   margin: ${({ $margin }) => $margin};
 
   background-color: ${({ $bg }) => $bg};
