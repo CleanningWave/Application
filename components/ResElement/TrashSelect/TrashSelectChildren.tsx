@@ -1,6 +1,6 @@
 import MiniBtn from "@/components/Button/MiniBtn";
 import FlexView from "@/components/FlexView";
-import { TRASH_TYPES } from "@/constants/TrashType";
+import { TRASH_TYPES } from "@/constants/Result";
 import styled from "styled-components/native";
 
 interface TrashSelectChildrenProps {

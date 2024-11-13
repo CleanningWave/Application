@@ -11,3 +11,5 @@ export enum TRASH_TYPES {
   STYROFOAM_PIECE = "스티로폼 조각",
   PLANTS = "해초",
 }
+
+export const SUBMIT_ORDER = ["BEFORE_SUBMIT", "SUBMIT", "ADDED"] as const;

@@ -9,27 +9,22 @@ import PickupRadio from "@/components/ResElement/PickupRadio";
 import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
 import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
 import AlertFrame from "@/components/ResModal/AlertFrame";
+import SubmitAlert from "@/components/ResModal/SubmitAlert";
+import { SUBMIT_ORDER } from "@/constants/Result";
 import { useState } from "react";
-import {
-  ScrollView,
-  Platform,
-  StatusBar,
-  Dimensions,
-  Text,
-} from "react-native";
+import { ScrollView, Platform, StatusBar, Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const ResultLayout = () => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
+  const [submitStep, setSubmitStep] = useState<number>(2);
 
   const openSelect = () => setIsSelectOpen(true);
 
   const closeSelect = () => setIsSelectOpen(false);
 
-  const openSubmitModal = () => setIsSubmitModalOpen(true);
-
-  const closeSubmitModal = () => setIsSubmitModalOpen(false);
+  const nextSubmitStep = () =>
+    setSubmitStep((prev) => (prev + 1) % SUBMIT_ORDER.length);
 
   const buttonHandler: Array<buttonHandlerObj> = [
     {
@@ -68,7 +63,7 @@ const ResultLayout = () => {
             <ResElement title={"담당 지자체"}>
               <OnlyText content={`제주시 해양수산과\n(Tel. 000-000-0000)`} />
             </ResElement>
-            <DefaultBtn contents="보고하기" handler={openSubmitModal} />
+            <DefaultBtn contents="보고하기" handler={nextSubmitStep} />
           </FlexView>
         </ResElementContainer>
       </ScrollView>
@@ -80,10 +75,13 @@ const ResultLayout = () => {
 
       {/* 부가 요소 - 모달 */}
       <AlertFrame
-        isVisible={isSubmitModalOpen}
-        closeModalHandler={closeSubmitModal}
+        isVisible={
+          SUBMIT_ORDER[submitStep] === "SUBMIT" ||
+          SUBMIT_ORDER[submitStep] === "ADDED"
+        }
+        closeModalHandler={nextSubmitStep}
       >
-        <Text>HI</Text>
+        <SubmitAlert step={SUBMIT_ORDER[submitStep]} handler={nextSubmitStep} />
       </AlertFrame>
     </Container>
   );
