@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import styled from "styled-components/native";
 import FlexView from "../FlexView";
 import DefaultBtn from "../Button/DefaultBtn";
+import { Modal } from "react-native";
 
 export type buttonHandlerObj = {
   title: string;
@@ -24,23 +25,25 @@ const BottomSheet = ({
     isVisible && (
       <Wrapper>
         <Dim />
-        <BottomSheetContainer>
-          <ChildrenCotainer>{children}</ChildrenCotainer>
-          <ButtonCotainer>
-            <FlexView direction={"row"} gapHorizental={8}>
-              {buttonHandler.map((el) => (
-                <DefaultBtn
-                  contents={el.title}
-                  isPrimary={el.isPrimary}
-                  fontSize={24}
-                  width={168}
-                  height={50}
-                  handler={el.handler}
-                />
-              ))}
-            </FlexView>
-          </ButtonCotainer>
-        </BottomSheetContainer>
+        <Modal animationType="slide" transparent={true}>
+          <BottomSheetContainer>
+            <ChildrenCotainer>{children}</ChildrenCotainer>
+            <ButtonCotainer>
+              <FlexView direction={"row"} gapHorizental={8}>
+                {buttonHandler.map((el) => (
+                  <DefaultBtn
+                    contents={el.title}
+                    isPrimary={el.isPrimary}
+                    fontSize={24}
+                    width={168}
+                    height={50}
+                    handler={el.handler}
+                  />
+                ))}
+              </FlexView>
+            </ButtonCotainer>
+          </BottomSheetContainer>
+        </Modal>
       </Wrapper>
     )
   );

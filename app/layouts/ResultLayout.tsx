@@ -8,16 +8,28 @@ import OnlyText from "@/components/ResElement/OnlyText";
 import PickupRadio from "@/components/ResElement/PickupRadio";
 import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
 import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
+import AlertFrame from "@/components/ResModal/AlertFrame";
 import { useState } from "react";
-import { ScrollView, Platform, StatusBar, Dimensions } from "react-native";
+import {
+  ScrollView,
+  Platform,
+  StatusBar,
+  Dimensions,
+  Text,
+} from "react-native";
 import styled from "styled-components/native";
 
 const ResultLayout = () => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState<boolean>(false);
 
   const openSelect = () => setIsSelectOpen(true);
 
   const closeSelect = () => setIsSelectOpen(false);
+
+  const openSubmitModal = () => setIsSubmitModalOpen(true);
+
+  const closeSubmitModal = () => setIsSubmitModalOpen(false);
 
   const buttonHandler: Array<buttonHandlerObj> = [
     {
@@ -56,14 +68,23 @@ const ResultLayout = () => {
             <ResElement title={"담당 지자체"}>
               <OnlyText content={`제주시 해양수산과\n(Tel. 000-000-0000)`} />
             </ResElement>
-            <DefaultBtn contents="보고하기" handler={() => {}} />
+            <DefaultBtn contents="보고하기" handler={openSubmitModal} />
           </FlexView>
         </ResElementContainer>
       </ScrollView>
 
+      {/* 부가 요소 - 바텀 시트 */}
       <BottomSheet isVisible={isSelectOpen} buttonHandler={buttonHandler}>
         <TrashSelectChildren selected={["GLASS"]} />
       </BottomSheet>
+
+      {/* 부가 요소 - 모달 */}
+      <AlertFrame
+        isVisible={isSubmitModalOpen}
+        closeModalHandler={closeSubmitModal}
+      >
+        <Text>HI</Text>
+      </AlertFrame>
     </Container>
   );
 };
