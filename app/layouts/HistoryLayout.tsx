@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import { styled } from "styled-components/native";
 import { Platform, StatusBar, Dimensions } from "react-native";
 import DefaultBtn from "@/components/Button/DefaultBtn";
-import { Colors } from "@/constants/Colors";
+import HistoryElement from "@/components/HistoryElement";
 
 const HistoryLayout = () => {
   return (
@@ -20,6 +20,10 @@ const HistoryLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
+        <HistoryElement isFirst={true} />
+        <HistoryElement />
+        <HistoryElement />
+        <HistoryElement isEnd={true} />
       </ScrollViewContainer>
     </Container>
   );
@@ -29,10 +33,6 @@ export default HistoryLayout;
 
 const ScrollViewContainer = styled.ScrollView`
   width: 90%;
-
-  border-color: ${Colors.neutral.light.light_0};
-  border-top-width: 1.5;
-  border-bottom-width: 1.5;
 `;
 
 const CalendarButtonContainer = styled.View`
