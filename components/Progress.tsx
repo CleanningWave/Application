@@ -1,12 +1,25 @@
 import { Colors } from "@/constants/Colors";
 import styled from "styled-components/native";
 
-const Progress = () => {
+const STATUS = {
+  COMPLETED: { text: `처리\n완료`, color: Colors.highlight.highlight_2 },
+  ONGOING: { text: `처리중`, color: Colors.support.green.green_0 },
+  ACCEPT: { text: `접수중`, color: Colors.support.orange.orange_0 },
+  REJECT: { text: `처리\n거부`, color: Colors.support.red.red_0 },
+};
+
+interface ProgressProps {
+  step: keyof typeof STATUS;
+}
+
+const Progress = ({ step }: ProgressProps) => {
+  const { text, color } = STATUS[step];
+
   return (
     <ProgressWrapper>
       <ProgressContainer>
-        <LineContainer>
-          <ProgressText>처리중</ProgressText>
+        <LineContainer $color={color}>
+          <ProgressText $color={color}>{text}</ProgressText>
         </LineContainer>
       </ProgressContainer>
     </ProgressWrapper>
@@ -15,12 +28,13 @@ const Progress = () => {
 
 export default Progress;
 
-const ProgressText = styled.Text`
+const ProgressText = styled.Text<{ $color: string }>`
   font-family: "Inter-ExtraBold";
   font-size: 36px;
+  color: ${({ $color }) => $color};
 `;
 
-const LineContainer = styled.View`
+const LineContainer = styled.View<{ $color: string }>`
   align-items: center;
   justify-content: center;
 
@@ -28,7 +42,7 @@ const LineContainer = styled.View`
   height: 135px;
 
   border-radius: 100px;
-  border: solid 6px ${Colors.neutral.dark.dark_0};
+  border: solid 6px ${({ $color }) => $color};
 `;
 
 const ProgressContainer = styled.View`
