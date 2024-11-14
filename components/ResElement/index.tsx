@@ -21,7 +21,7 @@ const ElementWrapper = styled.View``;
 const ElementTitle = styled.Text`
   margin: 0 0 16px 0;
 
-  font-family: "ExtraBold";
+  font-family: "Inter-ExtraBold";
   font-size: 32px;
 `;
 

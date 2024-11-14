@@ -96,7 +96,7 @@ const DayWrapper = styled.TouchableOpacity<{
 const HeaderText = styled.Text`
   margin-bottom: 16px;
 
-  font-family: "Bold";
+  font-family: "Inter-Bold";
   font-size: 40px;
   color: ${Colors.text};
 `;

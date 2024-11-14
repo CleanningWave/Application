@@ -28,7 +28,7 @@ const SubTitle = styled.Text`
 `;
 
 const Title = styled.Text`
-  font-family: "SemiBold";
+  font-family: "Inter-SemiBold";
   font-size: 36px;
 `;
 

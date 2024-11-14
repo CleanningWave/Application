@@ -31,7 +31,7 @@ export default TrashSelectChildren;
 const SelectTitle = styled.Text`
   margin-bottom: 20px;
 
-  font-family: "Black";
+  font-family: "Inter-Black";
   font-size: 24px;
 `;
 

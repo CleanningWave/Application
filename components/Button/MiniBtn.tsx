@@ -31,7 +31,7 @@ export default MiniBtn;
 
 const BtnContents = styled.Text<{ $ft: string }>`
   color: ${({ $ft }) => $ft};
-  font-family: "SemiBold";
+  font-family: "Inter-SemiBold";
   font-size: 24px;
 `;
 

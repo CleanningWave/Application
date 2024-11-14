@@ -62,7 +62,7 @@ const AddReportChildren = ({ handler }: AddReportChildrenProps) => {
 
 const Guide = styled.Text`
   font-size: 36px;
-  font-family: "ExtraBold";
+  font-family: "Inter-ExtraBold";
   text-align: center;
 `;
 

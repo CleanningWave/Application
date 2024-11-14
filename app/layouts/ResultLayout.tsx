@@ -17,7 +17,7 @@ import styled from "styled-components/native";
 
 const ResultLayout = () => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
-  const [submitStep, setSubmitStep] = useState<number>(2);
+  const [submitStep, setSubmitStep] = useState<number>(0);
 
   const openSelect = () => setIsSelectOpen(true);
 

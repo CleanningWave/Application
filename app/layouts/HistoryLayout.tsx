@@ -93,7 +93,7 @@ const SelectDayTextContainer = styled.Text`
   width: 90%;
 
   font-size: 40px;
-  font-family: "Bold";
+  font-family: "Inter-Bold";
   color: ${Colors.highlight.highlight_0};
 `;
 

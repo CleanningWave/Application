@@ -25,7 +25,7 @@ const CollectInput = () => {
 export default CollectInput;
 
 const AddCollectBtnContents = styled.Text`
-  font-family: "SemiBold";
+  font-family: "Inter-SemiBold";
   font-size: 24px;
   color: ${Colors.highlight.highlight_0};
 `;
