@@ -37,7 +37,7 @@ const Explain = styled.Text`
   text-align: center;
   margin: 20px 0 0 0;
 
-  font-family: "Regular";
+  font-family: "Inter-Regular";
   font-size: 24px;
   color: ${Colors.neutral.dark.dark_3};
 `;

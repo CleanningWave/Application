@@ -8,22 +8,24 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AfterLoginLayout from "./layouts/AfterLoginLayout";
 import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 import ResultLayout from "./layouts/ResultLayout";
+import HistoryLayout from "./layouts/HistoryLayout";
+import DetailHistoryLayout from "./layouts/ReportLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    Black: require("../assets/fonts/Inter-Black.otf"),
-    Bold: require("../assets/fonts/Inter-Bold.otf"),
-    ExtraBold: require("../assets/fonts/Inter-ExtraBold.otf"),
-    ExtraLight: require("../assets/fonts/Inter-ExtraLight.otf"),
+    "Inter-Black": require("../assets/fonts/Inter-Black.otf"),
+    "Inter-Bold": require("../assets/fonts/Inter-Bold.otf"),
+    "Inter-ExtraBold": require("../assets/fonts/Inter-ExtraBold.otf"),
+    "Inter-ExtraLight": require("../assets/fonts/Inter-ExtraLight.otf"),
 
-    Light: require("../assets/fonts/Inter-Light.otf"),
-    Medium: require("../assets/fonts/Inter-Medium.otf"),
-    Regular: require("../assets/fonts/Inter-Regular.otf"),
-    SemiBold: require("../assets/fonts/Inter-SemiBold.otf"),
-    Thin: require("../assets/fonts/Inter-Thin.otf"),
+    "Inter-Light": require("../assets/fonts/Inter-Light.otf"),
+    "Inter-Medium": require("../assets/fonts/Inter-Medium.otf"),
+    "Inter-Regular": require("../assets/fonts/Inter-Regular.otf"),
+    "Inter-SemiBold": require("../assets/fonts/Inter-SemiBold.otf"),
+    "Inter-Thin": require("../assets/fonts/Inter-Thin.otf"),
   });
 
   useEffect(() => {
@@ -41,7 +43,9 @@ export default function RootLayout() {
       <SafeAreaView edges={["top"]}>
         {/* <BeforeLoginLayout /> */}
         {/* <AfterLoginLayout /> */}
-        <ResultLayout />
+        {/* <ResultLayout /> */}
+        {/* <HistoryLayout /> */}
+        <DetailHistoryLayout />
       </SafeAreaView>
     </ThemeProvider>
   );

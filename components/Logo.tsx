@@ -34,13 +34,13 @@ const MainLogoContainer = styled.View`
 `;
 
 const LogoPointText = styled.Text`
-  font-family: "ExtraBold";
+  font-family: "Inter-ExtraBold";
   font-size: 36px;
   color: ${Colors.highlight.highlight_0};
 `;
 
 const LogoText = styled.Text`
-  font-family: "ExtraBold";
+  font-family: "Inter-ExtraBold";
   font-size: 36px;
   color: ${Colors.text};
 `;
@@ -48,7 +48,7 @@ const LogoText = styled.Text`
 const SubLogoText = styled.Text`
   margin-top: 4px;
 
-  font-family: "Thin";
+  font-family: "Inter-Thin";
   font-size: 26px;
   color: ${Colors.text};
 `;

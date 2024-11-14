@@ -59,7 +59,7 @@ export default DefaultBtn;
 
 const BtnContents = styled.Text<{ $ft: string; $size: number }>`
   color: ${({ $ft }) => $ft};
-  font-family: "SemiBold";
+  font-family: "Inter-SemiBold";
   font-size: ${({ $size }) => $size}px;
 `;
 

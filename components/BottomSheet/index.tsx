@@ -32,6 +32,7 @@ const BottomSheet = ({
               <FlexView direction={"row"} gapHorizental={8}>
                 {buttonHandler.map((el) => (
                   <DefaultBtn
+                    key={el.title}
                     contents={el.title}
                     isPrimary={el.isPrimary}
                     fontSize={24}
