@@ -6,10 +6,12 @@ import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import AfterLoginLayout from "./layouts/AfterLoginLayout";
-import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 import ResultLayout from "./layouts/ResultLayout";
 import HistoryLayout from "./layouts/HistoryLayout";
 import DetailHistoryLayout from "./layouts/ReportLayout";
+import { StatusBar } from "react-native";
+import LoginLayout from "./layouts/LoginLayout";
+import ReportLayout from "./layouts/ReportLayout";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,11 +43,13 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaView edges={["top"]}>
-        {/* <BeforeLoginLayout /> */}
+        <StatusBar barStyle={"default"} />
         {/* <AfterLoginLayout /> */}
         {/* <ResultLayout /> */}
         {/* <HistoryLayout /> */}
-        <DetailHistoryLayout />
+        {/* <DetailHistoryLayout /> */}
+        {/* <ReportLayout /> */}
+        <LoginLayout />
       </SafeAreaView>
     </ThemeProvider>
   );

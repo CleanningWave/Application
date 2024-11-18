@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import { styled } from "styled-components/native";
-import { Platform, StatusBar, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import DefaultBtn from "@/components/Button/DefaultBtn";
 import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
@@ -8,6 +8,7 @@ import CalendarCompo from "@/components/Calendar";
 import { useState } from "react";
 import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
+import { Container } from "@/components/LayoutContainer";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
@@ -31,7 +32,10 @@ const HistoryLayout = () => {
     {
       title: "달력 닫기",
       isPrimary: false,
-      handler: closeCalendar,
+      handler: () => {
+        getSelectDay("");
+        closeCalendar();
+      },
     },
     {
       title: "날짜 선택하기",
@@ -95,12 +99,4 @@ const SelectDayTextContainer = styled.Text`
   font-size: 40px;
   font-family: "Inter-Bold";
   color: ${Colors.highlight.highlight_0};
-`;
-
-const Container = styled.View`
-  align-items: center;
-
-  width: 100%;
-  height: ${Dimensions.get("window").height}px;
-  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
 `;
