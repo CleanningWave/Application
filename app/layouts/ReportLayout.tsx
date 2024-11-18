@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Progress from "@/components/Progress";
 import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
-import { ScrollView, Platform, StatusBar, Dimensions } from "react-native";
+import { ScrollView, Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const ReportLayout = () => {
@@ -40,9 +40,6 @@ const ReportLayout = () => {
 export default ReportLayout;
 
 const Container = styled.View`
-  /* padding-top: ${Platform.OS === "android"
-    ? StatusBar.currentHeight
-    : 0}px; */
   height: ${Dimensions.get("window").height}px;
 `;
 

@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import { styled } from "styled-components/native";
-import { Platform, StatusBar, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import DefaultBtn from "@/components/Button/DefaultBtn";
 import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
@@ -12,7 +12,7 @@ import { Colors } from "@/constants/Colors";
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectDay, setSelectDay] = useState<string>("");
-  const selectRef = useRef<string>("")
+  const selectRef = useRef<string>("");
 
   const getSelectDay = (day: string) => setSelectDay(day);
 
@@ -106,5 +106,4 @@ const Container = styled.View`
 
   width: 100%;
   height: ${Dimensions.get("window").height}px;
-  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
 `;
