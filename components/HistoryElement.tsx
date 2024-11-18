@@ -1,18 +1,22 @@
 import styled from "styled-components/native";
 import { Colors } from "@/constants/Colors";
 import FlexView from "./FlexView";
+import { GestureResponderEvent } from "react-native";
 
 interface HistoryElementProps {
+  handler: ((event: GestureResponderEvent) => void) | undefined;
+
   isFirst?: boolean;
   isEnd?: boolean;
 }
 
 const HistoryElement = ({
+  handler,
   isFirst = false,
   isEnd = false,
 }: HistoryElementProps) => {
   return (
-    <ElementContainer $isFirst={isFirst} $isEnd={isEnd}>
+    <ElementContainer onPress={handler} $isFirst={isFirst} $isEnd={isEnd}>
       <FlexView gapHorizental={16}>
         <Title>2024년 12월 25일 보고 (1)</Title>
         <SubTitle>제주시 함덕 해수욕장</SubTitle>
