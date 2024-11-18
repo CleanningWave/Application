@@ -11,12 +11,13 @@ interface HeaderProps {
 }
 
 const Header = ({ title, containerStyle, titleStyle }: HeaderProps) => {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   return (
     <Container style={containerStyle}>
       <LeftSection>
-        <BackButton onPress={() => navigation.goBack()}>
+        {/* <BackButton onPress={() => navigation.goBack()}> */}
+        <BackButton onPress={() => {}}>
           <Ionicons
             name="chevron-back"
             size={24}

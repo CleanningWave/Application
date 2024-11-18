@@ -5,13 +5,14 @@ import DefaultBtn from "@/components/Button/DefaultBtn";
 import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
 import CalendarCompo from "@/components/Calendar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectDay, setSelectDay] = useState<string>("");
+  const selectRef = useRef<string>("")
 
   const getSelectDay = (day: string) => setSelectDay(day);
 
@@ -31,7 +32,10 @@ const HistoryLayout = () => {
     {
       title: "달력 닫기",
       isPrimary: false,
-      handler: closeCalendar,
+      handler: () => {
+        getSelectDay("");
+        closeCalendar();
+      },
     },
     {
       title: "날짜 선택하기",

@@ -40,7 +40,9 @@ const ReportLayout = () => {
 export default ReportLayout;
 
 const Container = styled.View`
-  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
+  /* padding-top: ${Platform.OS === "android"
+    ? StatusBar.currentHeight
+    : 0}px; */
   height: ${Dimensions.get("window").height}px;
 `;
 

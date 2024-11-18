@@ -10,6 +10,7 @@ import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 import ResultLayout from "./layouts/ResultLayout";
 import HistoryLayout from "./layouts/HistoryLayout";
 import DetailHistoryLayout from "./layouts/ReportLayout";
+import { StatusBar } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -41,11 +42,12 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaView edges={["top"]}>
+        <StatusBar barStyle={"default"} />
         {/* <BeforeLoginLayout /> */}
         {/* <AfterLoginLayout /> */}
         {/* <ResultLayout /> */}
-        {/* <HistoryLayout /> */}
-        <DetailHistoryLayout />
+        <HistoryLayout />
+        {/* <DetailHistoryLayout /> */}
       </SafeAreaView>
     </ThemeProvider>
   );
