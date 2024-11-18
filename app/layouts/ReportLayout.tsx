@@ -1,5 +1,6 @@
 import FlexView from "@/components/FlexView";
 import Header from "@/components/Header";
+import { Container } from "@/components/LayoutContainer";
 import Progress from "@/components/Progress";
 import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
@@ -38,10 +39,6 @@ const ReportLayout = () => {
 };
 
 export default ReportLayout;
-
-const Container = styled.View`
-  height: ${Dimensions.get("window").height}px;
-`;
 
 const ResImage = styled.Image`
   width: 100%;

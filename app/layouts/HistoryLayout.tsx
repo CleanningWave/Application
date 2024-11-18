@@ -5,14 +5,14 @@ import DefaultBtn from "@/components/Button/DefaultBtn";
 import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
 import CalendarCompo from "@/components/Calendar";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
+import { Container } from "@/components/LayoutContainer";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectDay, setSelectDay] = useState<string>("");
-  const selectRef = useRef<string>("");
 
   const getSelectDay = (day: string) => setSelectDay(day);
 
@@ -99,11 +99,4 @@ const SelectDayTextContainer = styled.Text`
   font-size: 40px;
   font-family: "Inter-Bold";
   color: ${Colors.highlight.highlight_0};
-`;
-
-const Container = styled.View`
-  align-items: center;
-
-  width: 100%;
-  height: ${Dimensions.get("window").height}px;
 `;
