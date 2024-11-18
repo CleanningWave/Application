@@ -6,7 +6,6 @@ import "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import AfterLoginLayout from "./layouts/AfterLoginLayout";
-import BeforeLoginLayout from "./layouts/BeforeLoginLayout";
 import ResultLayout from "./layouts/ResultLayout";
 import HistoryLayout from "./layouts/HistoryLayout";
 import DetailHistoryLayout from "./layouts/ReportLayout";
@@ -45,13 +44,12 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       <SafeAreaView edges={["top"]}>
         <StatusBar barStyle={"default"} />
-        {/* <BeforeLoginLayout /> */}
         {/* <AfterLoginLayout /> */}
-        <ResultLayout />
+        {/* <ResultLayout /> */}
         {/* <HistoryLayout /> */}
         {/* <DetailHistoryLayout /> */}
         {/* <ReportLayout /> */}
-        {/* <LoginLayout /> */}
+        <LoginLayout />
       </SafeAreaView>
     </ThemeProvider>
   );
