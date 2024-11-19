@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { StyleProp, TextStyle, ViewStyle } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { router } from "expo-router";
 
 interface HeaderProps {
   title: string;
@@ -11,13 +11,10 @@ interface HeaderProps {
 }
 
 const Header = ({ title, containerStyle, titleStyle }: HeaderProps) => {
-  // const navigation = useNavigation();
-
   return (
     <Container style={containerStyle}>
       <LeftSection>
-        {/* <BackButton onPress={() => navigation.goBack()}> */}
-        <BackButton onPress={() => {}}>
+        <BackButton onPress={() => router.back()}>
           <Ionicons
             name="chevron-back"
             size={24}

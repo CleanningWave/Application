@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import { styled } from "styled-components/native";
-import { Dimensions } from "react-native";
 import DefaultBtn from "@/components/Button/DefaultBtn";
 import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
@@ -9,6 +8,7 @@ import { useState } from "react";
 import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
 import { Container } from "@/components/LayoutContainer";
+import { router } from "expo-router";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
@@ -64,10 +64,10 @@ const HistoryLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <HistoryElement isFirst={true} />
-        <HistoryElement />
-        <HistoryElement />
-        <HistoryElement isEnd={true} />
+        <HistoryElement handler={() => router.push("/report")} isFirst={true} />
+        <HistoryElement handler={() => router.push("/report")} />
+        <HistoryElement handler={() => router.push("/report")} />
+        <HistoryElement handler={() => router.push("/report")} isEnd={true} />
       </ScrollViewContainer>
 
       <BottomSheet isVisible={isCalendarOpen} buttonHandler={buttonHandler}>

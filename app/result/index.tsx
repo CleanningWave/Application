@@ -12,11 +12,14 @@ import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelect
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
 import { SUBMIT_ORDER } from "@/constants/Result";
-import { useState } from "react";
-import { ScrollView, Dimensions } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
 const ResultLayout = () => {
+  const { uri } = useLocalSearchParams();
+  const decoded = decodeURIComponent(uri as string);
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [submitStep, setSubmitStep] = useState<number>(0);
 
@@ -49,7 +52,7 @@ const ResultLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <ResImage src="https://www.humanesociety.org/sites/default/files/styles/768x326/public/2023-05/cat-grass-116668.jpg?h=464bc339&itok=U6H-jUuu" />
+        <ResImage source={{ uri: decoded }} />
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement title={"쓰레기 분류"}>
@@ -91,8 +94,10 @@ const ResultLayout = () => {
 export default ResultLayout;
 
 const ResImage = styled.Image`
-  width: 100%;
+  width: ${Dimensions.get("window").width}px;
   height: 340px;
+
+  background-color: aliceblue;
 `;
 
 const ResElementContainer = styled.View`

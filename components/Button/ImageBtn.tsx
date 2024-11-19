@@ -1,15 +1,16 @@
 import { Colors } from "@/constants/Colors";
-import { ImageSourcePropType } from "react-native";
+import { GestureResponderEvent, ImageSourcePropType } from "react-native";
 import styled from "styled-components/native";
 
 interface ImageBtnProps {
   src: ImageSourcePropType;
   text: string;
+  handler: ((event: GestureResponderEvent) => void) | undefined;
 }
 
-const ImageBtn = ({ src, text }: ImageBtnProps) => {
+const ImageBtn = ({ src, text, handler }: ImageBtnProps) => {
   return (
-    <ImgBtnContainer>
+    <ImgBtnContainer onPress={handler}>
       <ImgContainer source={src} />
       <ImgBtnText>{text}</ImgBtnText>
     </ImgBtnContainer>

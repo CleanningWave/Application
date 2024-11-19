@@ -3,6 +3,7 @@ import FlexView from "@/components/FlexView";
 import { Container } from "@/components/LayoutContainer";
 import Logo from "@/components/Logo";
 import { Colors } from "@/constants/Colors";
+import { router } from "expo-router";
 import styled from "styled-components/native";
 
 const LoginLayout = () => {
@@ -20,7 +21,12 @@ const LoginLayout = () => {
         <Input placeholder="비밀번호 입력하기" />
       </InputContainer>
 
-      <DefaultBtn contents="로그인 하기" handler={() => {}} />
+      <DefaultBtn
+        contents="로그인 하기"
+        handler={() => {
+          router.push("/main");
+        }}
+      />
     </Container>
   );
 };

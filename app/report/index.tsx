@@ -4,14 +4,14 @@ import { Container } from "@/components/LayoutContainer";
 import Progress from "@/components/Progress";
 import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
-import { ScrollView, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 const ReportLayout = () => {
   return (
     <Container>
       <Header title={"보고 내역 상세"} />
-      <ScrollView
+      <ScrollViewConatiner
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
@@ -33,7 +33,7 @@ const ReportLayout = () => {
           </FlexView>
         </ResElementContainer>
         <Progress step={"ONGOING"} />
-      </ScrollView>
+      </ScrollViewConatiner>
     </Container>
   );
 };
@@ -47,4 +47,8 @@ const ResImage = styled.Image`
 
 const ResElementContainer = styled.View`
   padding: 24px;
+`;
+
+const ScrollViewConatiner = styled.ScrollView`
+  width: ${Dimensions.get("window").width};
 `;

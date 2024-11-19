@@ -3,6 +3,7 @@ import { SUBMIT_ORDER } from "@/constants/Result";
 import FlexView from "../FlexView";
 import DefaultBtn from "../Button/DefaultBtn";
 import { Colors } from "@/constants/Colors";
+import { router } from "expo-router";
 
 // type
 
@@ -47,13 +48,37 @@ const SubmitChildren = ({ handler }: SubmitChildrenProps) => {
 interface AddReportChildrenProps extends SubmitDefaultTypes {}
 
 const AddReportChildren = ({ handler }: AddReportChildrenProps) => {
+  const goToMain = () => {
+    handler();
+    router.push("/main");
+  };
+
+  const addReportHandler = () => {
+    handler();
+    router.push("/camera");
+  };
+
   return (
     <FlexView direction="column" gapVertical={30}>
       <FlexView direction="column" gapVertical={8}>
         <Guide>추가로 보고할 내용이 있습니까?</Guide>
         <Explain>추가 제출 선택 시 카메라 화면으로 이동합니다.</Explain>
       </FlexView>
-      <DefaultBtn width={268} fontSize={24} contents="확인" handler={handler} />
+      <FlexView direction="row" gapHorizental={8}>
+        <DefaultBtn
+          width={130}
+          isPrimary={false}
+          fontSize={24}
+          contents="끝내기"
+          handler={goToMain}
+        />
+        <DefaultBtn
+          width={130}
+          fontSize={24}
+          contents="추가 제출"
+          handler={addReportHandler}
+        />
+      </FlexView>
     </FlexView>
   );
 };

@@ -3,7 +3,9 @@ import FlexView from "@/components/FlexView";
 import { Container } from "@/components/LayoutContainer";
 import Logo from "@/components/Logo";
 import { Colors } from "@/constants/Colors";
-import { View } from "react-native";
+import { Camera, useCameraPermissions } from "expo-camera";
+import { router } from "expo-router";
+import { Alert, View } from "react-native";
 import styled from "styled-components/native";
 
 const reportImg = require("@/assets/images/report.png");
@@ -17,10 +19,17 @@ const MainLayout = () => {
           <Logo isSubTitle={true} />
           <Explain>{`우리 동네 바닷가,\n내 손으로 깨끗하게 만들어요!`}</Explain>
         </View>
-
         <FlexView gapVertical={20}>
-          <ImageBtn src={reportImg} text="해양 쓰레기 처리 보고" />
-          <ImageBtn src={historyImg} text="보고 내역 확인" />
+          <ImageBtn
+            src={reportImg}
+            handler={() => router.push("/camera")}
+            text="해양 쓰레기 처리 보고"
+          />
+          <ImageBtn
+            src={historyImg}
+            handler={() => router.push("/history")}
+            text="보고 내역 확인"
+          />
         </FlexView>
       </FlexView>
     </Container>
