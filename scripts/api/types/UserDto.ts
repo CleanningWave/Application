@@ -13,3 +13,7 @@ export interface UserDto {
   managingAreas: AreaDto;
   assignedAreas: AreaDto;
 }
+
+export interface LoginReq extends Pick<UserDto, "loginId"> {
+  password: string;
+}
