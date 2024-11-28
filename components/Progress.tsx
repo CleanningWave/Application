@@ -1,11 +1,11 @@
 import { Colors } from "@/constants/Colors";
 import styled from "styled-components/native";
 
-const STATUS = {
+export const STATUS = {
   COMPLETED: { text: `처리\n완료`, color: Colors.highlight.highlight_2 },
-  ONGOING: { text: `처리중`, color: Colors.support.green.green_0 },
-  ACCEPT: { text: `접수중`, color: Colors.support.orange.orange_0 },
-  REJECT: { text: `처리\n거부`, color: Colors.support.red.red_0 },
+  PROCESSING: { text: `처리중`, color: Colors.support.green.green_0 },
+  PENDING: { text: `접수중`, color: Colors.support.orange.orange_0 },
+  REJECTED: { text: `처리\n거부`, color: Colors.support.red.red_0 },
 };
 
 interface ProgressProps {

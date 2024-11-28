@@ -32,7 +32,7 @@ const ReportLayout = () => {
             </ResElement>
           </FlexView>
         </ResElementContainer>
-        <Progress step={"ONGOING"} />
+        <Progress step={"PENDING"} />
       </ScrollViewConatiner>
     </Container>
   );

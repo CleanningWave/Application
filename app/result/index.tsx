@@ -13,7 +13,7 @@ import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
 import { SUBMIT_ORDER } from "@/constants/Result";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
