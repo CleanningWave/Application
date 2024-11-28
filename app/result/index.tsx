@@ -11,21 +11,58 @@ import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
 import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
-import { SUBMIT_ORDER } from "@/constants/Result";
+import { SUBMIT_ORDER, TRASH_TYPES } from "@/constants/Result";
+import {
+  CategoriesType,
+  CreateReportDto,
+  WasteQuantityDto,
+} from "@/types/ReportDto";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
+
+export interface ReportReq
+  extends Pick<CreateReportDto, "categories" | "quantities" | "reportType"> {}
 
 const ResultLayout = () => {
   const { uri } = useLocalSearchParams();
   const decoded = decodeURIComponent(uri as string);
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [submitStep, setSubmitStep] = useState<number>(0);
+  const [selected, setSelected] = useState<CategoriesType>([]);
+  const [result, setResult] = useState<ReportReq>({
+    categories: [],
+    quantities: [],
+    reportType: "",
+  });
 
   const openSelect = () => setIsSelectOpen(true);
 
   const closeSelect = () => setIsSelectOpen(false);
+
+  const setResultOption = (
+    target: CategoriesType | string | Array<WasteQuantityDto>
+  ) => {
+    if (!Array.isArray(target)) {
+      setResult((prev) => {
+        return { ...prev, reportType: target };
+      });
+    } else if (
+      target.every(
+        (item) =>
+          typeof item === "object" && "quantity" in item && "volume" in item
+      )
+    ) {
+      setResult((prev) => {
+        return { ...prev, quantities: target };
+      });
+    } else {
+      setResult((prev) => {
+        return { ...prev, categories: target };
+      });
+    }
+  };
 
   const nextSubmitStep = () =>
     setSubmitStep((prev) => (prev + 1) % SUBMIT_ORDER.length);
@@ -40,6 +77,7 @@ const ResultLayout = () => {
       title: "재선택 하기",
       isPrimary: true,
       handler: () => {
+        setResultOption(selected);
         closeSelect();
       },
     },
@@ -56,7 +94,7 @@ const ResultLayout = () => {
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement title={"쓰레기 분류"}>
-              <TrashSelectButton handler={openSelect} />
+              <TrashSelectButton result={result} handler={openSelect} />
             </ResElement>
             <ResElement title={"직접 수거 여부"}>
               <PickupRadio />
@@ -74,7 +112,7 @@ const ResultLayout = () => {
 
       {/* 부가 요소 - 바텀 시트 */}
       <BottomSheet isVisible={isSelectOpen} buttonHandler={buttonHandler}>
-        <TrashSelectChildren selected={["GLASS"]} />
+        <TrashSelectChildren selected={selected} setSelected={setSelected} />
       </BottomSheet>
 
       {/* 부가 요소 - 모달 */}
@@ -101,5 +139,8 @@ const ResImage = styled.Image`
 `;
 
 const ResElementContainer = styled.View`
+  flex: 1;
+
+  width: 100%;
   padding: 24px;
 `;

@@ -9,13 +9,17 @@ export interface WasteQuantityDto {
   volume: number;
 }
 
+export type CategorieType = `${TRASH_TYPES}`;
+
+export type CategoriesType = Array<CategorieType>;
+
 export interface CreateReportDto {
-  categories: Array<keyof typeof TRASH_TYPES>;
+  categories: CategoriesType;
   reportType: string;
-  quantities: WasteQuantityDto;
+  quantities: Array<WasteQuantityDto>;
   collectedAt: string;
   areaId: string;
-  image: FileDto;
+  image: Array<FileDto>;
 }
 
 export interface ReportDto {

@@ -16,13 +16,18 @@ const ResElement = ({ title, children }: ResElementProps) => {
 
 export default ResElement;
 
-const ElementWrapper = styled.View``;
+const ElementWrapper = styled.View`
+  width: 100%;
+`;
 
 const ElementTitle = styled.Text`
+  align-self: stretch;
   margin: 0 0 16px 0;
 
   font-family: "Inter-ExtraBold";
   font-size: 32px;
 `;
 
-const ElementContainer = styled.View``;
+const ElementContainer = styled.View`
+  align-self: stretch;
+`;
