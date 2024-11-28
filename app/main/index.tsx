@@ -3,9 +3,8 @@ import FlexView from "@/components/FlexView";
 import { Container } from "@/components/LayoutContainer";
 import Logo from "@/components/Logo";
 import { Colors } from "@/constants/Colors";
-import { Camera, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 import styled from "styled-components/native";
 
 const reportImg = require("@/assets/images/report.png");

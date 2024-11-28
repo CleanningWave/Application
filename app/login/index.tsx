@@ -39,7 +39,8 @@ const LoginLayout = () => {
       await AsyncStorage.setItem("refreshToken", data.refreshToken);
       router.push("/main");
     },
-    onError: () => {
+    onError: (err) => {
+      console.log(err);
       setIsLoginErr(true);
     },
   });
