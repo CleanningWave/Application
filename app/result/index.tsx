@@ -11,7 +11,7 @@ import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
 import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
-import { SUBMIT_ORDER, TRASH_TYPES } from "@/constants/Result";
+import { SUBMIT_ORDER } from "@/constants/Result";
 import {
   CategoriesType,
   CreateReportDto,
@@ -25,6 +25,8 @@ import styled from "styled-components/native";
 export interface ReportReq
   extends Pick<CreateReportDto, "categories" | "quantities" | "reportType"> {}
 
+const initialQuantites: WasteQuantityDto = { quantity: 0, volume: 0 };
+
 const ResultLayout = () => {
   const { uri } = useLocalSearchParams();
   const decoded = decodeURIComponent(uri as string);
@@ -33,7 +35,7 @@ const ResultLayout = () => {
   const [selected, setSelected] = useState<CategoriesType>([]);
   const [result, setResult] = useState<ReportReq>({
     categories: [],
-    quantities: [],
+    quantities: [initialQuantites],
     reportType: "",
   });
 
@@ -41,28 +43,32 @@ const ResultLayout = () => {
 
   const closeSelect = () => setIsSelectOpen(false);
 
-  const setResultOption = (
-    target: CategoriesType | string | Array<WasteQuantityDto>
-  ) => {
-    if (!Array.isArray(target)) {
-      setResult((prev) => {
-        return { ...prev, reportType: target };
-      });
-    } else if (
-      target.every(
-        (item) =>
-          typeof item === "object" && "quantity" in item && "volume" in item
-      )
-    ) {
-      setResult((prev) => {
-        return { ...prev, quantities: target };
-      });
-    } else {
-      setResult((prev) => {
-        return { ...prev, categories: target };
-      });
-    }
-  };
+  const setResultOption = (target: CategoriesType | string) =>
+    setResult((prev) => {
+      return Array.isArray(target)
+        ? { ...prev, categories: target as CategoriesType }
+        : { ...prev, reportType: target };
+    });
+
+  const modifyResultQuantites = (
+    idx: number,
+    type: keyof WasteQuantityDto,
+    changed: string
+  ) =>
+    setResult((prev) => {
+      const newQuantities = prev.quantities.map((quantity, index) =>
+        index === idx ? { ...quantity, [type]: Number(changed) } : quantity
+      );
+      return { ...prev, quantities: newQuantities };
+    });
+
+  const addResultQuantities = () =>
+    setResult((prev) => {
+      return {
+        ...prev,
+        quantities: [...prev.quantities, { ...initialQuantites }],
+      };
+    });
 
   const nextSubmitStep = () =>
     setSubmitStep((prev) => (prev + 1) % SUBMIT_ORDER.length);
@@ -94,13 +100,20 @@ const ResultLayout = () => {
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement title={"쓰레기 분류"}>
-              <TrashSelectButton result={result} handler={openSelect} />
+              <TrashSelectButton
+                categories={result.categories}
+                handler={openSelect}
+              />
             </ResElement>
             <ResElement title={"직접 수거 여부"}>
               <PickupRadio />
             </ResElement>
             <ResElement title={"수거 자루 개수"}>
-              <CollectInput />
+              <CollectInput
+                quantities={result.quantities}
+                modifyResultQuantites={modifyResultQuantites}
+                addResultQuantities={addResultQuantities}
+              />
             </ResElement>
             <ResElement title={"담당 지자체"}>
               <OnlyText content={`제주시 해양수산과\n(Tel. 000-000-0000)`} />

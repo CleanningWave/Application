@@ -1,17 +1,18 @@
 import { ReportReq } from "@/app/result";
 import { Colors } from "@/constants/Colors";
+import { CategoriesType } from "@/types/ReportDto";
 import Entypo from "@expo/vector-icons/Entypo";
 import styled from "styled-components/native";
 
 interface TrashSelectButton {
-  result: ReportReq;
+  categories: CategoriesType;
   handler: () => void;
 }
 
-const TrashSelectButton = ({ result, handler }: TrashSelectButton) => {
+const TrashSelectButton = ({ categories, handler }: TrashSelectButton) => {
   return (
     <SelectContainer onPress={handler}>
-      <SelectContents>{result.categories.join(", ")}</SelectContents>
+      <SelectContents>{categories.join(", ")}</SelectContents>
       <SelectArrow>
         <Entypo
           name="chevron-small-down"
