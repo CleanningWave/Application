@@ -30,3 +30,9 @@ export interface ReportDto {
   area: AreaDto;
   reporter: UserDto;
 }
+
+export interface InfinityPaginationReportResponseDto {
+  data: ReportDto;
+  hasNextPage: boolean;
+  total: number;
+}

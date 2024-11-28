@@ -1,18 +1,45 @@
 import DefaultBtn from "@/components/Button/DefaultBtn";
+import FlexView from "@/components/FlexView";
 import { Container } from "@/components/LayoutContainer";
 import Logo from "@/components/Logo";
+import AlertFrame from "@/components/ResModal/AlertFrame";
 import { Colors } from "@/constants/Colors";
-import { LoginReq } from "@/scripts/api/types/UserDto";
+import { API, API_PATH } from "@/constants/Path";
+import { LoginReq, UserDto } from "@/types/UserDto";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
+interface LoginRes {
+  accessToken: string;
+  refreshToken: string;
+  tokenExpires: number;
+  refreshTokenExpires: number;
+  user: UserDto;
+}
+
 const LoginLayout = () => {
   const [isFocus, setIsFocus] = useState<false | "id" | "password">(false);
+  const [isLoginErr, setIsLoginErr] = useState<boolean>(false);
   const [info, setInfo] = useState<LoginReq>({
     loginId: "",
     password: "",
+  });
+
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async () =>
+      await axios.post<LoginRes>(`${API}${API_PATH.POST_LOGIN}`, info),
+    onSuccess: ({ data }) => {
+      console.log(data);
+      // router.push("/main");
+    },
+    onError: () => {
+      setIsLoginErr(true);
+    },
   });
 
   const setLoginId = (loginId: string) =>
@@ -24,6 +51,8 @@ const LoginLayout = () => {
     setInfo((prev) => {
       return { ...prev, password: password };
     });
+
+  const resetInfo = () => setIsLoginErr(false);
 
   return (
     <KeyboardAvoidingView
@@ -60,17 +89,35 @@ const LoginLayout = () => {
 
           <DefaultBtn
             contents="로그인 하기"
-            handler={() => {
-              router.push("/main");
-            }}
+            disabled={info.loginId.length === 0 && info.password.length === 0}
+            handler={mutation.mutate}
           />
         </Container>
       </ScrollView>
+
+      {/* 부가 요소 - 모달 */}
+      <AlertFrame isVisible={isLoginErr} closeModalHandler={resetInfo}>
+        <FlexView direction="column" gapVertical={30}>
+          <Guide>등록되지 않은 계정입니다.</Guide>
+          <DefaultBtn
+            width={268}
+            fontSize={24}
+            contents="다시 입력하기"
+            handler={resetInfo}
+          />
+        </FlexView>
+      </AlertFrame>
     </KeyboardAvoidingView>
   );
 };
 
 export default LoginLayout;
+
+const Guide = styled.Text`
+  font-size: 36px;
+  font-family: "Inter-ExtraBold";
+  text-align: center;
+`;
 
 const Title = styled.Text`
   margin: 22px 0 36px 0;
