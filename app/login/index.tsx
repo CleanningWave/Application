@@ -6,6 +6,7 @@ import AlertFrame from "@/components/ResModal/AlertFrame";
 import { Colors } from "@/constants/Colors";
 import { API, API_PATH } from "@/constants/Path";
 import { LoginReq, UserDto } from "@/types/UserDto";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { router } from "expo-router";
@@ -33,9 +34,10 @@ const LoginLayout = () => {
     mutationKey: ["login"],
     mutationFn: async () =>
       await axios.post<LoginRes>(`${API}${API_PATH.POST_LOGIN}`, info),
-    onSuccess: ({ data }) => {
-      console.log(data);
-      // router.push("/main");
+    onSuccess: async ({ data }) => {
+      await AsyncStorage.setItem("accessToken", data.accessToken);
+      await AsyncStorage.setItem("refreshToken", data.refreshToken);
+      router.push("/main");
     },
     onError: () => {
       setIsLoginErr(true);
