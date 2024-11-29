@@ -25,11 +25,11 @@ export interface CreateReportDto {
 export interface ReportDto {
   id: string;
   status: keyof typeof STATUS;
-  categories: string[]; // 카테고리 설정 필요
+  categories: CategoriesType;
   reportType: string; // 어떤 값 있는 지 질문 필요
   quantities: WasteQuantityDto;
   createdAt: string;
-  collectdAt: string;
+  collectedAt: string;
   updatedAt: string;
   area: AreaDto;
   reporter: UserDto;

@@ -9,10 +9,31 @@ import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
 import { Container } from "@/components/LayoutContainer";
 import { router } from "expo-router";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { API, API_PATH } from "@/constants/Path";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ReportDto } from "@/types/ReportDto";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectDay, setSelectDay] = useState<string>("");
+
+  const { data } = useQuery({
+    queryKey: ["getHistory"],
+    queryFn: async () => {
+      const token = await AsyncStorage.getItem("accessToken");
+      return await axios.get(
+        `${API}${API_PATH.GET_HISTORY_LIST}?page=1&limit=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    },
+  });
 
   const getSelectDay = (day: string) => setSelectDay(day);
 
@@ -46,6 +67,8 @@ const HistoryLayout = () => {
     },
   ];
 
+  console.log("HEYHYE", data?.data.data);
+
   return (
     <Container>
       <Header title={"보고 내역 확인"} />
@@ -64,10 +87,15 @@ const HistoryLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <HistoryElement handler={() => router.push("/report")} isFirst={true} />
-        <HistoryElement handler={() => router.push("/report")} />
-        <HistoryElement handler={() => router.push("/report")} />
-        <HistoryElement handler={() => router.push("/report")} isEnd={true} />
+        {data?.data.data.map((d: ReportDto, idx: number) => (
+          <HistoryElement
+            title={d.collectedAt}
+            area={d.area.municipality.name}
+            categories={d.categories}
+            handler={() => router.push("/report")}
+            isFirst={idx === 0}
+          />
+        ))}
       </ScrollViewContainer>
 
       <BottomSheet isVisible={isCalendarOpen} buttonHandler={buttonHandler}>
