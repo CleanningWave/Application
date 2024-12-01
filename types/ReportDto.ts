@@ -27,7 +27,7 @@ export interface ReportDto {
   status: keyof typeof STATUS;
   categories: CategoriesType;
   reportType: string; // 어떤 값 있는 지 질문 필요
-  quantities: WasteQuantityDto;
+  quantities: Array<WasteQuantityDto>;
   createdAt: string;
   collectedAt: string;
   updatedAt: string;

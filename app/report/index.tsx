@@ -65,8 +65,6 @@ const ReportLayout = () => {
     }
   }, [item]);
 
-  console.log(report);
-
   return (
     <Container>
       <Header title={"보고 내역 상세"} />

@@ -67,8 +67,6 @@ const HistoryLayout = () => {
     },
   ];
 
-  console.log("HEYHYE", data?.data.data);
-
   return (
     <Container>
       <Header title={"보고 내역 확인"} />
@@ -87,13 +85,17 @@ const HistoryLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        {data?.data.data.map((d: ReportDto, idx: number) => (
+        {(data?.data.data ?? []).map((d: ReportDto, idx: number) => (
           <HistoryElement
+            key={d.id}
             title={d.collectedAt}
             area={d.area.municipality.name}
             categories={d.categories}
-            handler={() => router.push("/report")}
+            handler={() =>
+              router.push({ pathname: "/report", params: { id: d.id } })
+            }
             isFirst={idx === 0}
+            isEnd={idx === data?.data.total - 1}
           />
         ))}
       </ScrollViewContainer>
