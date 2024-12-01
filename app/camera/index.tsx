@@ -1,5 +1,7 @@
 import DefaultBtn from "@/components/Button/DefaultBtn";
 import FlexView from "@/components/FlexView";
+import { postFile } from "@/scripts/api/fileApi";
+import { useMutation } from "@tanstack/react-query";
 import {
   CameraCapturedPicture,
   CameraView,
@@ -11,11 +13,28 @@ import { Alert, Linking } from "react-native";
 import styled from "styled-components/native";
 
 const CameraLayout = () => {
-  const [picture, setPicture] = useState<CameraCapturedPicture | undefined>(
-    undefined
-  );
+  const [picture, setPicture] = useState<CameraCapturedPicture | undefined>();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView | null>(null);
+
+  const mutation = useMutation({
+    mutationKey: ["fileUpload"],
+    mutationFn: async () => await postFile(picture?.uri as string),
+    onSuccess: async (res) => {
+      if (res?.data) {
+        console.log(res.data);
+        router.push({
+          pathname: "/result",
+          params: {
+            imgUrl: res.data.file.path,
+          },
+        });
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   const checkPermission = async () => {
     if (!permission) return;
@@ -73,12 +92,10 @@ const CameraLayout = () => {
             <DefaultBtn
               contents="보고하기"
               width={162}
-              handler={() =>
-                router.push({
-                  pathname: "/result",
-                  params: { uri: encodeURIComponent(picture.uri) },
-                })
-              }
+              handler={mutation.mutate}
+              // handler={() => {
+              //   router.push("/result");
+              // }}
             />
           </FlexView>
         </CameraButtonContainer>

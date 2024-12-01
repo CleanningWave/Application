@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "./main";
-import { checkAccessToken } from "@/scripts/checkToken";
 import LoginLayout from "./login";
+import { checkAccessToken } from "@/scripts/api/checkToken";
 
 const Main = () => {
   const [isLogined, setIsLogined] = useState<boolean>(false);

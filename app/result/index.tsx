@@ -6,6 +6,7 @@ import { Container } from "@/components/LayoutContainer";
 import * as ResElement from "@/components/ResElement";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
+import { API } from "@/constants/Path";
 import { SUBMIT_ORDER } from "@/constants/Result";
 import { MunicipalityDto } from "@/types/AreaDto";
 import {
@@ -25,8 +26,7 @@ export interface ReportReq
 const initialQuantites: WasteQuantityDto = { quantity: 0, volume: 0 };
 
 const ResultLayout = () => {
-  const { uri } = useLocalSearchParams();
-  const decoded = decodeURIComponent(uri as string);
+  const { imgUrl } = useLocalSearchParams();
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [submitStep, setSubmitStep] = useState<number>(0);
@@ -112,7 +112,7 @@ const ResultLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <ResImage source={{ uri: decoded }} />
+        <ResImage source={{ uri: `${API}${imgUrl}` }} />
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement.Frame title={"쓰레기 분류"}>
