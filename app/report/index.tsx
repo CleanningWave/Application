@@ -2,8 +2,7 @@ import FlexView from "@/components/FlexView";
 import Header from "@/components/Header";
 import { Container } from "@/components/LayoutContainer";
 import Progress from "@/components/Progress";
-import ResElement from "@/components/ResElement";
-import OnlyText from "@/components/ResElement/OnlyText";
+import * as ResElement from "@/components/ResElement";
 import { API_PATH } from "@/constants/Path";
 import baseInstance from "@/scripts/api/axios";
 import { AreaDto, MunicipalityDto } from "@/types/AreaDto";
@@ -82,25 +81,27 @@ const ReportLayout = () => {
         <ResImage src="https://www.humanesociety.org/sites/default/files/styles/768x326/public/2023-05/cat-grass-116668.jpg?h=464bc339&itok=U6H-jUuu" />
         <ResElementContainer>
           <FlexView gapVertical={36}>
-            <ResElement title={"쓰레기 분류"}>
-              <OnlyText content={report.categories.join(", ")} />
-            </ResElement>
-            <ResElement title={"직접 수거 여부"}>
-              <OnlyText content={report.reportType} />
-            </ResElement>
-            <ResElement title={"수거 자루 개수"}>
+            <ResElement.Frame title={"쓰레기 분류"}>
+              <ResElement.OnlyText content={report.categories.join(", ")} />
+            </ResElement.Frame>
+            <ResElement.Frame title={"직접 수거 여부"}>
+              <ResElement.OnlyText content={report.reportType} />
+            </ResElement.Frame>
+            <ResElement.Frame title={"수거 자루 개수"}>
               <FlexView gapHorizental={16}>
                 {report.quantities.map(({ quantity, volume }, idx) => (
-                  <OnlyText
+                  <ResElement.OnlyText
                     key={`${quantity}_${volume}_${idx}`}
                     content={`${volume}L 들이 ${quantity}개`}
                   />
                 ))}
               </FlexView>
-            </ResElement>
-            <ResElement title={"담당 지자체"}>
-              <OnlyText content={`${area?.name}\n(Tel. ${area?.tel})`} />
-            </ResElement>
+            </ResElement.Frame>
+            <ResElement.Frame title={"담당 지자체"}>
+              <ResElement.OnlyText
+                content={`${area?.name}\n(Tel. ${area?.tel})`}
+              />
+            </ResElement.Frame>
           </FlexView>
         </ResElementContainer>
         <Progress step={report.status} />

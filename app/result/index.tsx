@@ -3,12 +3,7 @@ import DefaultBtn from "@/components/Button/DefaultBtn";
 import FlexView from "@/components/FlexView";
 import Header from "@/components/Header";
 import { Container } from "@/components/LayoutContainer";
-import ResElement from "@/components/ResElement";
-import CollectInput from "@/components/ResElement/CollectInput";
-import OnlyText from "@/components/ResElement/OnlyText";
-import PickupRadio from "@/components/ResElement/PickupRadio";
-import TrashSelectButton from "@/components/ResElement/TrashSelect/TrashSelect";
-import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelectChildren";
+import * as ResElement from "@/components/ResElement";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
 import { SUBMIT_ORDER } from "@/constants/Result";
@@ -120,25 +115,27 @@ const ResultLayout = () => {
         <ResImage source={{ uri: decoded }} />
         <ResElementContainer>
           <FlexView gapVertical={36}>
-            <ResElement title={"쓰레기 분류"}>
-              <TrashSelectButton
+            <ResElement.Frame title={"쓰레기 분류"}>
+              <ResElement.TrashSelectButton
                 categories={result.categories}
                 handler={openSelect}
               />
-            </ResElement>
-            <ResElement title={"직접 수거 여부"}>
-              <PickupRadio />
-            </ResElement>
-            <ResElement title={"수거 자루 개수"}>
-              <CollectInput
+            </ResElement.Frame>
+            <ResElement.Frame title={"직접 수거 여부"}>
+              <ResElement.PickupRadio />
+            </ResElement.Frame>
+            <ResElement.Frame title={"수거 자루 개수"}>
+              <ResElement.CollectInput
                 quantities={result.quantities}
                 modifyResultQuantites={modifyResultQuantites}
                 addResultQuantities={addResultQuantities}
               />
-            </ResElement>
-            <ResElement title={"담당 지자체"}>
-              <OnlyText content={`${area?.name}\n(Tel. ${area?.tel})`} />
-            </ResElement>
+            </ResElement.Frame>
+            <ResElement.Frame title={"담당 지자체"}>
+              <ResElement.OnlyText
+                content={`${area?.name}\n(Tel. ${area?.tel})`}
+              />
+            </ResElement.Frame>
             <DefaultBtn contents="보고하기" handler={nextSubmitStep} />
           </FlexView>
         </ResElementContainer>
@@ -146,7 +143,10 @@ const ResultLayout = () => {
 
       {/* 부가 요소 - 바텀 시트 */}
       <BottomSheet isVisible={isSelectOpen} buttonHandler={buttonHandler}>
-        <TrashSelectChildren selected={selected} setSelected={setSelected} />
+        <ResElement.TrashSelectChildren
+          selected={selected}
+          setSelected={setSelected}
+        />
       </BottomSheet>
 
       {/* 부가 요소 - 모달 */}
