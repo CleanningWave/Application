@@ -17,3 +17,13 @@ export interface UserDto {
 export interface LoginReq extends Pick<UserDto, "loginId"> {
   password: string;
 }
+
+export interface LoginRes {
+  accessToken: string;
+  refreshToken: string;
+  tokenExpires: number;
+  refreshTokenExpires: number;
+  user: UserDto;
+}
+
+export type RefreshRes =  Pick<LoginRes, "accessToken" | "refreshToken" | "tokenExpires"> 

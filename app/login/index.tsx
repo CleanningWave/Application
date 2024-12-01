@@ -6,21 +6,13 @@ import AlertFrame from "@/components/ResModal/AlertFrame";
 import { Colors } from "@/constants/Colors";
 import { API_PATH } from "@/constants/Path";
 import baseInstance from "@/scripts/api/axios";
-import { LoginReq, UserDto } from "@/types/UserDto";
+import { LoginReq, LoginRes } from "@/types/UserDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import styled from "styled-components/native";
-
-interface LoginRes {
-  accessToken: string;
-  refreshToken: string;
-  tokenExpires: number;
-  refreshTokenExpires: number;
-  user: UserDto;
-}
 
 const LoginLayout = () => {
   const [isFocus, setIsFocus] = useState<false | "id" | "password">(false);
@@ -43,7 +35,6 @@ const LoginLayout = () => {
         refreshToken,
         tokenExpires,
       } = data;
-      console.log(name, tel);
       await AsyncStorage.clear();
       await AsyncStorage.multiSet([
         ["accessToken", accessToken],
@@ -51,14 +42,11 @@ const LoginLayout = () => {
         ["tokenExpires", tokenExpires.toString()],
         ["lastLogin", Date.now().toString()],
       ]);
-      await AsyncStorage.setItem(
-        "area",
-        `${data.user.municipality.name},${data.user.municipality.tel}`
-      );
+      await AsyncStorage.setItem("area", `${name},${tel}`);
       router.push("/main");
     },
     onError: (err) => {
-      console.log(err);
+      console.error(err);
       setIsLoginErr(true);
     },
   });
