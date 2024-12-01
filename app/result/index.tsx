@@ -12,13 +12,15 @@ import TrashSelectChildren from "@/components/ResElement/TrashSelect/TrashSelect
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
 import { SUBMIT_ORDER } from "@/constants/Result";
+import { MunicipalityDto } from "@/types/AreaDto";
 import {
   CategoriesType,
   CreateReportDto,
   WasteQuantityDto,
 } from "@/types/ReportDto";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
 
@@ -30,14 +32,29 @@ const initialQuantites: WasteQuantityDto = { quantity: 0, volume: 0 };
 const ResultLayout = () => {
   const { uri } = useLocalSearchParams();
   const decoded = decodeURIComponent(uri as string);
+
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [submitStep, setSubmitStep] = useState<number>(0);
+
   const [selected, setSelected] = useState<CategoriesType>([]);
   const [result, setResult] = useState<ReportReq>({
     categories: [],
     quantities: [initialQuantites],
     reportType: "",
   });
+
+  const [area, setArea] = useState<Omit<MunicipalityDto, "id">>({
+    name: "",
+    tel: "",
+  });
+
+  const setAreaInfo = async () => {
+    const areaInfo = (await AsyncStorage.getItem("area"))?.toString();
+    if (areaInfo) {
+      const [name, tel] = areaInfo.split(",");
+      setArea({ name: name, tel: tel });
+    }
+  };
 
   const openSelect = () => setIsSelectOpen(true);
 
@@ -89,6 +106,10 @@ const ResultLayout = () => {
     },
   ];
 
+  useEffect(() => {
+    setAreaInfo();
+  }, []);
+
   return (
     <Container>
       <Header title={"AI 분석 결과"} />
@@ -116,7 +137,7 @@ const ResultLayout = () => {
               />
             </ResElement>
             <ResElement title={"담당 지자체"}>
-              <OnlyText content={`제주시 해양수산과\n(Tel. 000-000-0000)`} />
+              <OnlyText content={`${area?.name}\n(Tel. ${area?.tel})`} />
             </ResElement>
             <DefaultBtn contents="보고하기" handler={nextSubmitStep} />
           </FlexView>

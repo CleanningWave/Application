@@ -6,7 +6,7 @@ import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
 import { API_PATH } from "@/constants/Path";
 import baseInstance from "@/scripts/api/axios";
-import { AreaDto } from "@/types/AreaDto";
+import { AreaDto, MunicipalityDto } from "@/types/AreaDto";
 import { ReportDto } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
@@ -42,11 +42,17 @@ const ReportLayout = () => {
       detailAddress: "",
     },
   });
+  const [area, setArea] = useState<Omit<MunicipalityDto, "id">>();
 
   const { data, isLoading } = useQuery({
     queryKey: ["getHistoryById"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("accessToken");
+      const areaInfo = (await AsyncStorage.getItem("area"))?.toString();
+      if (areaInfo) {
+        const [name, tel] = areaInfo.split(",");
+        setArea({ name: name, tel: tel });
+      }
       return await baseInstance.get<GetHistoryByIdRes>(
         API_PATH.GET_HISTORY_BY_ID(item.id as string),
         {
@@ -93,9 +99,7 @@ const ReportLayout = () => {
               </FlexView>
             </ResElement>
             <ResElement title={"담당 지자체"}>
-              <OnlyText
-                content={`로그인 이후 지자체 정보 이름 넣을 곳\n(Tel. 여기는 전화번호 넣을 곳)`}
-              />
+              <OnlyText content={`${area?.name}\n(Tel. ${area?.tel})`} />
             </ResElement>
           </FlexView>
         </ResElementContainer>
