@@ -10,10 +10,10 @@ import { Colors } from "@/constants/Colors";
 import { Container } from "@/components/LayoutContainer";
 import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { API, API_PATH } from "@/constants/Path";
+import { API_PATH } from "@/constants/Path";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ReportDto } from "@/types/ReportDto";
+import baseInstance from "@/scripts/api/axios";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
@@ -23,12 +23,11 @@ const HistoryLayout = () => {
     queryKey: ["getHistory"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("accessToken");
-      return await axios.get(
-        `${API}${API_PATH.GET_HISTORY_LIST}?page=1&limit=10`,
+      return await baseInstance.get(
+        `${API_PATH.GET_HISTORY_LIST}?page=1&limit=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
         }
       );

@@ -4,11 +4,11 @@ import { Container } from "@/components/LayoutContainer";
 import Logo from "@/components/Logo";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import { Colors } from "@/constants/Colors";
-import { API, API_PATH } from "@/constants/Path";
+import { API_PATH } from "@/constants/Path";
+import baseInstance from "@/scripts/api/axios";
 import { LoginReq, UserDto } from "@/types/UserDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
@@ -33,10 +33,28 @@ const LoginLayout = () => {
   const mutation = useMutation({
     mutationKey: ["login"],
     mutationFn: async () =>
-      await axios.post<LoginRes>(`${API}${API_PATH.POST_LOGIN}`, info),
+      await baseInstance.post<LoginRes>(API_PATH.POST_LOGIN, info),
     onSuccess: async ({ data }) => {
-      await AsyncStorage.setItem("accessToken", data.accessToken);
-      await AsyncStorage.setItem("refreshToken", data.refreshToken);
+      const {
+        user: {
+          municipality: { name, tel },
+        },
+        accessToken,
+        refreshToken,
+        tokenExpires,
+      } = data;
+      console.log(name, tel);
+      await AsyncStorage.clear();
+      await AsyncStorage.multiSet([
+        ["accessToken", accessToken],
+        ["refreshToken", refreshToken],
+        ["tokenExpires", tokenExpires.toString()],
+        ["lastLogin", Date.now().toString()],
+      ]);
+      await AsyncStorage.setItem(
+        "area",
+        `${data.user.municipality.name},${data.user.municipality.tel}`
+      );
       router.push("/main");
     },
     onError: (err) => {

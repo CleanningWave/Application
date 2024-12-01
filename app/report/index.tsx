@@ -4,12 +4,12 @@ import { Container } from "@/components/LayoutContainer";
 import Progress from "@/components/Progress";
 import ResElement from "@/components/ResElement";
 import OnlyText from "@/components/ResElement/OnlyText";
-import { API, API_PATH } from "@/constants/Path";
+import { API_PATH } from "@/constants/Path";
+import baseInstance from "@/scripts/api/axios";
 import { AreaDto } from "@/types/AreaDto";
 import { ReportDto } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
@@ -47,8 +47,8 @@ const ReportLayout = () => {
     queryKey: ["getHistoryById"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("accessToken");
-      return await axios.get(
-        `${API}${API_PATH.GET_HISTORY_BY_ID(item.id as string)}`,
+      return await baseInstance.get<GetHistoryByIdRes>(
+        API_PATH.GET_HISTORY_BY_ID(item.id as string),
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -83,10 +83,19 @@ const ReportLayout = () => {
               <OnlyText content={report.reportType} />
             </ResElement>
             <ResElement title={"수거 자루 개수"}>
-              <OnlyText content={`40L 들이 3개`} />
+              <FlexView gapHorizental={16}>
+                {report.quantities.map(({ quantity, volume }, idx) => (
+                  <OnlyText
+                    key={`${quantity}_${volume}_${idx}`}
+                    content={`${volume}L 들이 ${quantity}개`}
+                  />
+                ))}
+              </FlexView>
             </ResElement>
             <ResElement title={"담당 지자체"}>
-              <OnlyText content={`로그인 이후 지자체 정보 이름 넣을 곳\n(Tel. 여기는 전화번호 넣을 곳)`} />
+              <OnlyText
+                content={`로그인 이후 지자체 정보 이름 넣을 곳\n(Tel. 여기는 전화번호 넣을 곳)`}
+              />
             </ResElement>
           </FlexView>
         </ResElementContainer>
