@@ -13,3 +13,8 @@ export enum TRASH_TYPES {
 }
 
 export const SUBMIT_ORDER = ["BEFORE_SUBMIT", "SUBMIT", "ADDED"] as const;
+
+export enum COLLECT_TYPE {
+  SELF_COLLECTION = "직접 수거",
+  REQUEST_COLLECTION = "수거 요청",
+}

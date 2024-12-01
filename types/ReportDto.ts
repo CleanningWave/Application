@@ -1,4 +1,4 @@
-import { TRASH_TYPES } from "@/constants/Result";
+import { COLLECT_TYPE, TRASH_TYPES } from "@/constants/Result";
 import { FileDto } from "./FileDto";
 import { STATUS } from "@/components/Progress";
 import { AreaDto } from "./AreaDto";
@@ -13,9 +13,11 @@ export type CategorieType = `${TRASH_TYPES}`;
 
 export type CategoriesType = Array<CategorieType>;
 
+export type ReportType = keyof typeof COLLECT_TYPE;
+
 export interface CreateReportDto {
   categories: CategoriesType;
-  reportType: string;
+  reportType: ReportType;
   quantities: Array<WasteQuantityDto>;
   collectedAt: string;
   areaId: string;
@@ -26,7 +28,7 @@ export interface ReportDto {
   id: string;
   status: keyof typeof STATUS;
   categories: CategoriesType;
-  reportType: string; // 어떤 값 있는 지 질문 필요
+  reportType: ReportType;
   quantities: Array<WasteQuantityDto>;
   createdAt: string;
   collectedAt: string;

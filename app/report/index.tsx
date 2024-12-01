@@ -3,7 +3,8 @@ import Header from "@/components/Header";
 import { Container } from "@/components/LayoutContainer";
 import Progress from "@/components/Progress";
 import * as ResElement from "@/components/ResElement";
-import { API_PATH } from "@/constants/Path";
+import { API, API_PATH } from "@/constants/Path";
+import { COLLECT_TYPE } from "@/constants/Result";
 import baseInstance from "@/scripts/api/axios";
 import { AreaDto, MunicipalityDto } from "@/types/AreaDto";
 import { ReportDto } from "@/types/ReportDto";
@@ -32,7 +33,7 @@ const ReportLayout = () => {
     id: "",
     status: "PENDING",
     categories: [],
-    reportType: "",
+    reportType: "SELF_COLLECTION",
     quantities: [],
     images: [],
     area: {
@@ -77,15 +78,14 @@ const ReportLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* <ResImage src={`${API}${report?.images[0].path}`} /> */}
-        <ResImage src="https://www.humanesociety.org/sites/default/files/styles/768x326/public/2023-05/cat-grass-116668.jpg?h=464bc339&itok=U6H-jUuu" />
+        <ResImage src={`${API}${report.images[0].path}`} />
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement.Frame title={"쓰레기 분류"}>
               <ResElement.OnlyText content={report.categories.join(", ")} />
             </ResElement.Frame>
             <ResElement.Frame title={"직접 수거 여부"}>
-              <ResElement.OnlyText content={report.reportType} />
+              <ResElement.OnlyText content={COLLECT_TYPE[report.reportType]} />
             </ResElement.Frame>
             <ResElement.Frame title={"수거 자루 개수"}>
               <FlexView gapHorizental={16}>
@@ -115,6 +115,8 @@ export default ReportLayout;
 const ResImage = styled.Image`
   width: 100%;
   height: 340px;
+
+  background-color: aliceblue;
 `;
 
 const ResElementContainer = styled.View`

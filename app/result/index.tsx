@@ -12,6 +12,7 @@ import { MunicipalityDto } from "@/types/AreaDto";
 import {
   CategoriesType,
   CreateReportDto,
+  ReportType,
   WasteQuantityDto,
 } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -35,7 +36,7 @@ const ResultLayout = () => {
   const [result, setResult] = useState<ReportReq>({
     categories: [],
     quantities: [initialQuantites],
-    reportType: "",
+    reportType: "SELF_COLLECTION",
   });
 
   const [area, setArea] = useState<Omit<MunicipalityDto, "id">>({
@@ -55,11 +56,12 @@ const ResultLayout = () => {
 
   const closeSelect = () => setIsSelectOpen(false);
 
-  const setResultOption = (target: CategoriesType | string) =>
+  const setResultOption = (
+    type: "categories" | "reportType",
+    target: CategoriesType | ReportType
+  ) =>
     setResult((prev) => {
-      return Array.isArray(target)
-        ? { ...prev, categories: target as CategoriesType }
-        : { ...prev, reportType: target };
+      return { ...prev, [type]: target };
     });
 
   const modifyResultQuantites = (
@@ -95,7 +97,7 @@ const ResultLayout = () => {
       title: "재선택 하기",
       isPrimary: true,
       handler: () => {
-        setResultOption(selected);
+        setResultOption("categories", selected);
         closeSelect();
       },
     },
@@ -122,7 +124,10 @@ const ResultLayout = () => {
               />
             </ResElement.Frame>
             <ResElement.Frame title={"직접 수거 여부"}>
-              <ResElement.PickupRadio />
+              <ResElement.PickupRadio
+                reportType={result.reportType}
+                setResultOption={setResultOption}
+              />
             </ResElement.Frame>
             <ResElement.Frame title={"수거 자루 개수"}>
               <ResElement.CollectInput
