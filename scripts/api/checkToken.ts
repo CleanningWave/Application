@@ -5,10 +5,6 @@ import baseInstance from "./axios";
 export const checkAccessToken = async () => {
   try {
     const accessToken = await AsyncStorage.getItem("accessToken");
-    if (!accessToken || accessToken.length === 0) {
-      return false;
-    }
-
     try {
       await baseInstance.get(`${API_PATH.GET_HISTORY_LIST}?page=${1}`, {
         headers: {
