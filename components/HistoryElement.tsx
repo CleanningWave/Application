@@ -2,8 +2,13 @@ import styled from "styled-components/native";
 import { Colors } from "@/constants/Colors";
 import FlexView from "./FlexView";
 import { GestureResponderEvent } from "react-native";
+import moment from "moment";
+import { CategoriesType } from "@/types/ReportDto";
 
 interface HistoryElementProps {
+  title: string;
+  area: string;
+  categories: CategoriesType;
   handler: ((event: GestureResponderEvent) => void) | undefined;
 
   isFirst?: boolean;
@@ -11,15 +16,19 @@ interface HistoryElementProps {
 }
 
 const HistoryElement = ({
+  title,
+  area,
+  categories,
   handler,
   isFirst = false,
   isEnd = false,
 }: HistoryElementProps) => {
   return (
     <ElementContainer onPress={handler} $isFirst={isFirst} $isEnd={isEnd}>
-      <FlexView gapHorizental={16}>
-        <Title>2024년 12월 25일 보고 (1)</Title>
-        <SubTitle>제주시 함덕 해수욕장</SubTitle>
+      <FlexView gapVertical={16}>
+        <Title>{moment(title).utc().format("YYYY년 MM월 DD일")}</Title>
+        <SubTitle>{area}</SubTitle>
+        <SubTitle>{categories.join(", ")}</SubTitle>
       </FlexView>
     </ElementContainer>
   );

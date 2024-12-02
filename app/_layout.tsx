@@ -7,9 +7,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { StatusBar } from "react-native";
 import { Slot } from "expo-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -36,11 +39,13 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <SafeAreaView edges={["top"]}>
-        <StatusBar barStyle={"default"} />
-        <Slot />
-      </SafeAreaView>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={DefaultTheme}>
+        <SafeAreaView edges={["top"]}>
+          <StatusBar barStyle={"default"} />
+          <Slot />
+        </SafeAreaView>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

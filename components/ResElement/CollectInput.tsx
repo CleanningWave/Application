@@ -1,21 +1,43 @@
 import styled from "styled-components/native";
 import { Colors } from "@/constants/Colors";
-import DefaultBtn from "../Button/DefaultBtn";
+import { WasteQuantityDto } from "@/types/ReportDto";
 
-const CollectInput = () => {
+interface CollectInputProps {
+  quantities: Array<WasteQuantityDto>;
+  modifyResultQuantites: (
+    idx: number,
+    type: keyof WasteQuantityDto,
+    changed: string
+  ) => void;
+  addResultQuantities: () => void;
+}
+
+const CollectInput = ({
+  quantities,
+  modifyResultQuantites,
+  addResultQuantities,
+}: CollectInputProps) => {
   return (
     <CollectElementWrapper>
-      <CollectElementContainer>
-        <PairElementContainer>
-          <CollectTextInput />
-          <CollectText>L</CollectText>
-        </PairElementContainer>
-        <PairElementContainer>
-          <CollectTextInput />
-          <CollectText>개</CollectText>
-        </PairElementContainer>
-      </CollectElementContainer>
-      <AddCollectBtnContainer>
+      {quantities.map(({ quantity, volume }, idx) => (
+        <CollectElementContainer key={`collect_quantites_${idx}`}>
+          <PairElementContainer>
+            <CollectTextInput
+              onChangeText={(e) => modifyResultQuantites(idx, "quantity", e)}
+              value={quantity.toString()}
+            />
+            <CollectText>L</CollectText>
+          </PairElementContainer>
+          <PairElementContainer>
+            <CollectTextInput
+              onChangeText={(e) => modifyResultQuantites(idx, "volume", e)}
+              value={volume.toString()}
+            />
+            <CollectText>개</CollectText>
+          </PairElementContainer>
+        </CollectElementContainer>
+      ))}
+      <AddCollectBtnContainer onPress={addResultQuantities}>
         <AddCollectBtnContents>수거 내역 추가하기</AddCollectBtnContents>
       </AddCollectBtnContainer>
     </CollectElementWrapper>
@@ -49,9 +71,13 @@ const CollectText = styled.Text`
 const CollectTextInput = styled.TextInput`
   width: 93px;
   height: 48px;
+  padding: 8px;
 
   border: solid 1px ${Colors.neutral.light.light_0};
   border-radius: 12px;
+  font-size: 24px;
+
+  text-align: right;
 `;
 
 const PairElementContainer = styled.View`
@@ -68,4 +94,6 @@ const CollectElementContainer = styled.View`
   margin-bottom: 16px;
 `;
 
-const CollectElementWrapper = styled.View``;
+const CollectElementWrapper = styled.View`
+  width: 100%;
+`;

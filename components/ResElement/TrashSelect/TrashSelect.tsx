@@ -1,26 +1,26 @@
+import { ReportReq } from "@/app/result";
 import { Colors } from "@/constants/Colors";
+import { CategoriesType } from "@/types/ReportDto";
 import Entypo from "@expo/vector-icons/Entypo";
-import { View } from "react-native";
 import styled from "styled-components/native";
 
 interface TrashSelectButton {
+  categories: CategoriesType;
   handler: () => void;
 }
 
-const TrashSelectButton = ({ handler }: TrashSelectButton) => {
+const TrashSelectButton = ({ categories, handler }: TrashSelectButton) => {
   return (
-    <View>
-      <SelectContainer onPress={handler}>
-        <SelectContents>유리</SelectContents>
-        <SelectArrow>
-          <Entypo
-            name="chevron-small-down"
-            size={24}
-            color={Colors.neutral.dark.dark_3}
-          />
-        </SelectArrow>
-      </SelectContainer>
-    </View>
+    <SelectContainer onPress={handler}>
+      <SelectContents>{categories.join(", ")}</SelectContents>
+      <SelectArrow>
+        <Entypo
+          name="chevron-small-down"
+          size={24}
+          color={Colors.neutral.dark.dark_3}
+        />
+      </SelectArrow>
+    </SelectContainer>
   );
 };
 
@@ -31,19 +31,23 @@ const SelectArrow = styled.View`
   justify-content: center;
 
   width: 30px;
-  height: 100%;
 `;
 
 const SelectContents = styled.Text`
+  flex: 1;
+  flex-wrap: wrap;
   font-size: 24px;
 `;
 
 const SelectContainer = styled.TouchableOpacity`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+  align-self: stretch;
 
   width: 100%;
-  height: 48px;
+  min-height: 28px;
+  max-height: 176px;
   padding: 8px 16px;
 
   border-radius: 16px;

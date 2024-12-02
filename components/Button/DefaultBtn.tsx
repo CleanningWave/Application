@@ -10,21 +10,34 @@ interface DefaultBtnProps {
   fontSize?: number;
   width?: number;
   height?: number;
+  disabled?: boolean;
 }
 
-const getStyles = (isColored: boolean, isPrimary: boolean) => {
-  return {
-    line:
-      isColored || isPrimary
-        ? Colors.highlight.highlight_0
-        : Colors.neutral.light.light_1,
-    bg: isPrimary ? Colors.highlight.highlight_0 : Colors.neutral.light.light_4,
-    ft: isColored
-      ? isPrimary
-        ? Colors.neutral.light.light_4
-        : Colors.highlight.highlight_0
-      : Colors.neutral.dark.dark_0,
-  };
+const getStyles = (
+  disabled: boolean,
+  isColored: boolean,
+  isPrimary: boolean
+) => {
+  return disabled
+    ? {
+        line: Colors.neutral.light.light_0,
+        bg: Colors.neutral.light.light_0,
+        ft: Colors.neutral.light.light_4,
+      }
+    : {
+        line:
+          isColored || isPrimary
+            ? Colors.highlight.highlight_0
+            : Colors.neutral.light.light_1,
+        bg: isPrimary
+          ? Colors.highlight.highlight_0
+          : Colors.neutral.light.light_4,
+        ft: isColored
+          ? isPrimary
+            ? Colors.neutral.light.light_4
+            : Colors.highlight.highlight_0
+          : Colors.neutral.dark.dark_0,
+      };
 };
 
 const DefaultBtn = ({
@@ -36,8 +49,9 @@ const DefaultBtn = ({
   fontSize = 36,
   width = 312,
   height = 60,
+  disabled = false,
 }: DefaultBtnProps) => {
-  const { line, bg, ft } = getStyles(isColored, isPrimary);
+  const { line, bg, ft } = getStyles(disabled, isColored, isPrimary);
 
   return (
     <BtnContainer

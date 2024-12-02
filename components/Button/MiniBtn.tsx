@@ -1,9 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import styled from "styled-components/native";
 
-interface MiniBtnProps {
+interface MiniBtnProps<T> {
   content: string;
   isSelected: boolean;
+  handler: (value: T) => void;
 }
 
 const getStyles = (isSelected: boolean) => {
@@ -17,11 +18,11 @@ const getStyles = (isSelected: boolean) => {
   };
 };
 
-const MiniBtn = ({ content, isSelected }: MiniBtnProps) => {
+const MiniBtn = <T,>({ content, isSelected, handler }: MiniBtnProps<T>) => {
   const { bg, ft } = getStyles(isSelected);
 
   return (
-    <BtnContainer $bg={bg}>
+    <BtnContainer $bg={bg} onPress={() => handler(content as T)}>
       <BtnContents $ft={ft}>{content}</BtnContents>
     </BtnContainer>
   );
