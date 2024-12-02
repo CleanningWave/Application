@@ -26,25 +26,27 @@ interface GetHistoryByIdRes
   images: Array<{ id: string; path: string }>;
 }
 
+const INITIAL_REPORT: GetHistoryByIdRes = {
+  id: "",
+  status: "PENDING",
+  categories: [],
+  reportType: "SELF_COLLECTION",
+  quantities: [],
+  images: [],
+  area: {
+    areaId: "",
+    name: "",
+    detailAddress: "",
+  },
+};
+
 const ReportLayout = () => {
   const item = useLocalSearchParams();
 
-  const [report, setReport] = useState<GetHistoryByIdRes>({
-    id: "",
-    status: "PENDING",
-    categories: [],
-    reportType: "SELF_COLLECTION",
-    quantities: [],
-    images: [],
-    area: {
-      areaId: "",
-      name: "",
-      detailAddress: "",
-    },
-  });
+  const [report, setReport] = useState<GetHistoryByIdRes>(INITIAL_REPORT);
   const [area, setArea] = useState<Omit<MunicipalityDto, "id">>();
 
-  const { data, isLoading } = useQuery({
+  useQuery({
     queryKey: ["getHistoryById"],
     queryFn: async () => {
       const token = await AsyncStorage.getItem("accessToken");
@@ -53,7 +55,8 @@ const ReportLayout = () => {
         const [name, tel] = areaInfo.split(",");
         setArea({ name: name, tel: tel });
       }
-      return await baseInstance.get<GetHistoryByIdRes>(
+
+      const { data } = await baseInstance.get<GetHistoryByIdRes>(
         API_PATH.GET_HISTORY_BY_ID(item.id as string),
         {
           headers: {
@@ -62,14 +65,13 @@ const ReportLayout = () => {
           },
         }
       );
-    },
-  });
 
-  useEffect(() => {
-    if (Object.keys(item).length > 0 && data?.data && !isLoading) {
-      setReport(data?.data);
-    }
-  }, [item]);
+      setReport(data);
+      return data;
+    },
+    enabled: !!item.id,
+    staleTime: 0,
+  });
 
   return (
     <Container>
