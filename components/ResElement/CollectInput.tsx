@@ -17,20 +17,33 @@ const CollectInput = ({
   modifyResultQuantites,
   addResultQuantities,
 }: CollectInputProps) => {
+  const handleChangeText = (
+    idx: number,
+    type: keyof WasteQuantityDto,
+    text: string
+  ) => {
+    const numericText = text.replace(/[^0-9]/g, "");
+    const sanitizedText = numericText === "" ? "0" : numericText;
+
+    modifyResultQuantites(idx, type, sanitizedText);
+  };
+
   return (
     <CollectElementWrapper>
       {quantities.map(({ quantity, volume }, idx) => (
         <CollectElementContainer key={`collect_quantites_${idx}`}>
           <PairElementContainer>
             <CollectTextInput
-              onChangeText={(e) => modifyResultQuantites(idx, "quantity", e)}
+              onChangeText={(e) => handleChangeText(idx, "quantity", e)}
+              maxLength={3}
               value={quantity.toString()}
             />
             <CollectText>L</CollectText>
           </PairElementContainer>
           <PairElementContainer>
             <CollectTextInput
-              onChangeText={(e) => modifyResultQuantites(idx, "volume", e)}
+              onChangeText={(e) => handleChangeText(idx, "volume", e)}
+              maxLength={3}
               value={volume.toString()}
             />
             <CollectText>개</CollectText>
