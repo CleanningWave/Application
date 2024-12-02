@@ -78,7 +78,9 @@ const ReportLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <ResImage src={`${API}${report.images[0].path}`} />
+        <ResImage
+          src={report.images.length > 0 ? `${API}${report.images[0].path}` : ""}
+        />
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement.Frame title={"쓰레기 분류"}>
