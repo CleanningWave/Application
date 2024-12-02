@@ -32,6 +32,22 @@ const HistoryList = ({ selectDay }: HistoryListProps) => {
 
   const flattenedData = data?.pages.flatMap((page) => page.data) || [];
 
+  const isSameDate = (target: string) => {
+    const selected = new Date(selectDay);
+    const targeted = new Date(target);
+
+    return (
+      selected.getFullYear() === targeted.getFullYear() &&
+      selected.getMonth() === targeted.getMonth() &&
+      selected.getDate() === targeted.getDate()
+    );
+  };
+
+  const selectedData =
+    selectDay.length > 0
+      ? flattenedData.filter((d) => isSameDate(d.collectedAt))
+      : flattenedData;
+
   const historyJSX = ({ item, index }: { item: ReportDto; index: number }) => (
     <HistoryElement
       key={item.id}
@@ -49,9 +65,9 @@ const HistoryList = ({ selectDay }: HistoryListProps) => {
   const endRechedHandler = () =>
     hasNextPage && !isFetchingNextPage && fetchNextPage();
 
-  return flattenedData.length > 0 ? (
+  return selectedData.length > 0 ? (
     <FlatList
-      data={flattenedData}
+      data={selectedData}
       keyExtractor={(item) => item.id}
       contentContainerStyle={{ width: "90%", paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
