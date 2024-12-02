@@ -11,7 +11,7 @@ import { ReportDto } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
@@ -49,7 +49,6 @@ const ReportLayout = () => {
   useQuery({
     queryKey: ["getHistoryById"],
     queryFn: async () => {
-      const token = await AsyncStorage.getItem("accessToken");
       const areaInfo = (await AsyncStorage.getItem("area"))?.toString();
       if (areaInfo) {
         const [name, tel] = areaInfo.split(",");
@@ -57,13 +56,7 @@ const ReportLayout = () => {
       }
 
       const { data } = await baseInstance.get<GetHistoryByIdRes>(
-        API_PATH.GET_HISTORY_BY_ID(item.id as string),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        API_PATH.GET_HISTORY_BY_ID(item.id as string)
       );
 
       setReport(data);

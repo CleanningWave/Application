@@ -1,17 +1,10 @@
 import { API_PATH } from "@/constants/Path";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import baseInstance from "./axios";
 
 export const checkAccessToken = async () => {
   try {
-    const accessToken = await AsyncStorage.getItem("accessToken");
     try {
-      await baseInstance.get(`${API_PATH.GET_HISTORY_LIST}?page=${1}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+      await baseInstance.get(`${API_PATH.GET_HISTORY_LIST(1)}`);
 
       return true;
     } catch (error: any) {

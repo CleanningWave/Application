@@ -1,38 +1,17 @@
 import Header from "@/components/Header";
 import { styled } from "styled-components/native";
 import DefaultBtn from "@/components/Button/DefaultBtn";
-import HistoryElement from "@/components/HistoryElement";
 import BottomSheet, { buttonHandlerObj } from "@/components/BottomSheet";
 import CalendarCompo from "@/components/Calendar";
 import { useState } from "react";
 import { WEEK_ENUM } from "@/constants/Calendars";
 import { Colors } from "@/constants/Colors";
 import { Container } from "@/components/LayoutContainer";
-import { router } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import { API_PATH } from "@/constants/Path";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ReportDto } from "@/types/ReportDto";
-import baseInstance from "@/scripts/api/axios";
+import HistoryList from "@/components/HistoryList";
 
 const HistoryLayout = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
   const [selectDay, setSelectDay] = useState<string>("");
-
-  const { data } = useQuery({
-    queryKey: ["getHistory"],
-    queryFn: async () => {
-      const token = await AsyncStorage.getItem("accessToken");
-      return await baseInstance.get(
-        `${API_PATH.GET_HISTORY_LIST}?page=1&limit=10`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    },
-  });
 
   const getSelectDay = (day: string) => setSelectDay(day);
 
@@ -80,24 +59,8 @@ const HistoryLayout = () => {
           handler={openCalendar}
         />
       </CalendarButtonContainer>
-      <ScrollViewContainer
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
-        {(data?.data.data ?? []).map((d: ReportDto, idx: number) => (
-          <HistoryElement
-            key={d.id}
-            title={d.collectedAt}
-            area={d.area.municipality.name}
-            categories={d.categories}
-            handler={() =>
-              router.push({ pathname: "/report", params: { id: d.id } })
-            }
-            isFirst={idx === 0}
-            isEnd={idx === data?.data.total - 1}
-          />
-        ))}
-      </ScrollViewContainer>
+
+      <HistoryList />
 
       <BottomSheet isVisible={isCalendarOpen} buttonHandler={buttonHandler}>
         <CalendarCompo selectDay={selectDay} getSelectDay={getSelectDay} />
@@ -107,11 +70,6 @@ const HistoryLayout = () => {
 };
 
 export default HistoryLayout;
-
-const ScrollViewContainer = styled.ScrollView`
-  width: 90%;
-  padding-bottom: 40px;
-`;
 
 const CalendarButtonContainer = styled.View`
   align-items: flex-end;
