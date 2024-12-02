@@ -11,7 +11,7 @@ import { ReportDto } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
@@ -26,50 +26,45 @@ interface GetHistoryByIdRes
   images: Array<{ id: string; path: string }>;
 }
 
+const INITIAL_REPORT: GetHistoryByIdRes = {
+  id: "",
+  status: "PENDING",
+  categories: [],
+  reportType: "SELF_COLLECTION",
+  quantities: [],
+  images: [],
+  area: {
+    areaId: "",
+    name: "",
+    detailAddress: "",
+  },
+};
+
 const ReportLayout = () => {
   const item = useLocalSearchParams();
 
-  const [report, setReport] = useState<GetHistoryByIdRes>({
-    id: "",
-    status: "PENDING",
-    categories: [],
-    reportType: "SELF_COLLECTION",
-    quantities: [],
-    images: [],
-    area: {
-      areaId: "",
-      name: "",
-      detailAddress: "",
-    },
-  });
+  const [report, setReport] = useState<GetHistoryByIdRes>(INITIAL_REPORT);
   const [area, setArea] = useState<Omit<MunicipalityDto, "id">>();
 
-  const { data, isLoading } = useQuery({
+  useQuery({
     queryKey: ["getHistoryById"],
     queryFn: async () => {
-      const token = await AsyncStorage.getItem("accessToken");
       const areaInfo = (await AsyncStorage.getItem("area"))?.toString();
       if (areaInfo) {
         const [name, tel] = areaInfo.split(",");
         setArea({ name: name, tel: tel });
       }
-      return await baseInstance.get<GetHistoryByIdRes>(
-        API_PATH.GET_HISTORY_BY_ID(item.id as string),
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    },
-  });
 
-  useEffect(() => {
-    if (Object.keys(item).length > 0 && data?.data && !isLoading) {
-      setReport(data?.data);
-    }
-  }, [item]);
+      const { data } = await baseInstance.get<GetHistoryByIdRes>(
+        API_PATH.GET_HISTORY_BY_ID(item.id as string)
+      );
+
+      setReport(data);
+      return data;
+    },
+    enabled: !!item.id,
+    staleTime: 0,
+  });
 
   return (
     <Container>
@@ -78,7 +73,9 @@ const ReportLayout = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <ResImage src={`${API}${report.images[0].path}`} />
+        <ResImage
+          src={report.images.length > 0 ? `${API}${report.images[0].path}` : ""}
+        />
         <ResElementContainer>
           <FlexView gapVertical={36}>
             <ResElement.Frame title={"쓰레기 분류"}>
