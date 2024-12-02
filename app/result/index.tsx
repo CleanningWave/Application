@@ -6,7 +6,7 @@ import { Container } from "@/components/LayoutContainer";
 import * as ResElement from "@/components/ResElement";
 import AlertFrame from "@/components/ResModal/AlertFrame";
 import SubmitAlert from "@/components/ResModal/SubmitAlert";
-import { API } from "@/constants/Path";
+import { API, API_PATH } from "@/constants/Path";
 import { SUBMIT_ORDER } from "@/constants/Result";
 import { MunicipalityDto } from "@/types/AreaDto";
 import {
@@ -16,18 +16,23 @@ import {
   WasteQuantityDto,
 } from "@/types/ReportDto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Dimensions, ScrollView } from "react-native";
 import styled from "styled-components/native";
+import baseInstance from "@/scripts/api/axios";
 
 export interface ReportReq
-  extends Pick<CreateReportDto, "categories" | "quantities" | "reportType"> {}
+  extends Pick<CreateReportDto, "categories" | "quantities" | "reportType"> {
+  areaId: string;
+  images: Array<{ id: string; path: string }>;
+}
 
 const initialQuantites: WasteQuantityDto = { quantity: 0, volume: 0 };
 
 const ResultLayout = () => {
-  const { imgUrl } = useLocalSearchParams();
+  const { imgId, imgUrl } = useLocalSearchParams();
 
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
   const [submitStep, setSubmitStep] = useState<number>(0);
@@ -37,6 +42,8 @@ const ResultLayout = () => {
     categories: [],
     quantities: [initialQuantites],
     reportType: "SELF_COLLECTION",
+    areaId: "",
+    images: [],
   });
 
   const [area, setArea] = useState<Omit<MunicipalityDto, "id">>({
@@ -44,11 +51,30 @@ const ResultLayout = () => {
     tel: "",
   });
 
+  const nextSubmitStep = () =>
+    setSubmitStep((prev) => (prev + 1) % SUBMIT_ORDER.length);
+
+  const mutation = useMutation({
+    mutationKey: ["reseultSend"],
+    mutationFn: async () =>
+      await baseInstance.post(API_PATH.POST_REPORTS, {
+        ...result,
+        collectedAt: new Date().toString(),
+      }),
+    onSuccess: nextSubmitStep,
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
   const setAreaInfo = async () => {
     const areaInfo = (await AsyncStorage.getItem("area"))?.toString();
     if (areaInfo) {
-      const [name, tel] = areaInfo.split(",");
+      const [name, tel, id] = areaInfo.split(",");
       setArea({ name: name, tel: tel });
+      setResult((prev) => {
+        return { ...prev, areaId: id };
+      });
     }
   };
 
@@ -84,9 +110,6 @@ const ResultLayout = () => {
       };
     });
 
-  const nextSubmitStep = () =>
-    setSubmitStep((prev) => (prev + 1) % SUBMIT_ORDER.length);
-
   const buttonHandler: Array<buttonHandlerObj> = [
     {
       title: "재선택 닫기",
@@ -104,8 +127,13 @@ const ResultLayout = () => {
   ];
 
   useEffect(() => {
-    setAreaInfo();
-  }, []);
+    if (typeof imgId === "string" && typeof imgUrl === "string") {
+      setResult((prev) => {
+        return { ...prev, images: [{ id: imgId, path: `${API}${imgUrl}` }] };
+      });
+      setAreaInfo();
+    }
+  }, [imgId, imgUrl]);
 
   return (
     <Container>
@@ -141,7 +169,7 @@ const ResultLayout = () => {
                 content={`${area?.name}\n(Tel. ${area?.tel})`}
               />
             </ResElement.Frame>
-            <DefaultBtn contents="보고하기" handler={nextSubmitStep} />
+            <DefaultBtn contents="보고하기" handler={mutation.mutate} />
           </FlexView>
         </ResElementContainer>
       </ScrollView>

@@ -21,7 +21,7 @@ export interface CreateReportDto {
   quantities: Array<WasteQuantityDto>;
   collectedAt: string;
   areaId: string;
-  image: Array<FileDto>;
+  images: Array<FileDto>;
 }
 
 export interface ReportDto {

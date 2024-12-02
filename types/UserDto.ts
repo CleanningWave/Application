@@ -23,7 +23,10 @@ export interface LoginRes {
   refreshToken: string;
   tokenExpires: number;
   refreshTokenExpires: number;
-  user: UserDto;
+  user: UserDto & { assignedAreas: Array<AreaDto> };
 }
 
-export type RefreshRes =  Pick<LoginRes, "accessToken" | "refreshToken" | "tokenExpires"> 
+export type RefreshRes = Pick<
+  LoginRes,
+  "accessToken" | "refreshToken" | "tokenExpires"
+>;

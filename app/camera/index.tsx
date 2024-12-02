@@ -22,10 +22,10 @@ const CameraLayout = () => {
     mutationFn: async () => await postFile(picture?.uri as string),
     onSuccess: async (res) => {
       if (res?.data) {
-        console.log(res.data);
         router.push({
           pathname: "/result",
           params: {
+            imgId: res.data.file.id,
             imgUrl: res.data.file.path,
           },
         });

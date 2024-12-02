@@ -30,11 +30,15 @@ const LoginLayout = () => {
       const {
         user: {
           municipality: { name, tel },
+          assignedAreas,
         },
         accessToken,
         refreshToken,
         tokenExpires,
       } = data;
+
+      const { id } = assignedAreas[0];
+
       await AsyncStorage.clear();
       await AsyncStorage.multiSet([
         ["accessToken", accessToken],
@@ -42,7 +46,8 @@ const LoginLayout = () => {
         ["tokenExpires", tokenExpires.toString()],
         ["lastLogin", Date.now().toString()],
       ]);
-      await AsyncStorage.setItem("area", `${name},${tel}`);
+      await AsyncStorage.setItem("area", `${name},${tel},${id}`);
+
       router.push("/main");
     },
     onError: (err) => {
