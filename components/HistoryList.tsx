@@ -1,13 +1,19 @@
 import { API_PATH } from "@/constants/Path";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import baseInstance from "@/scripts/api/axios";
 import { FlatList } from "react-native";
 import HistoryElement from "./HistoryElement";
 import { router } from "expo-router";
 import { ReportDto } from "@/types/ReportDto";
+import NoData from "./NoData";
+import styled from "styled-components/native";
+import { Colors } from "@/constants/Colors";
 
-const HistoryList = () => {
+interface HistoryListProps {
+  selectDay: string;
+}
+
+const HistoryList = ({ selectDay }: HistoryListProps) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["getHistory"],
@@ -43,7 +49,7 @@ const HistoryList = () => {
   const endRechedHandler = () =>
     hasNextPage && !isFetchingNextPage && fetchNextPage();
 
-  return (
+  return flattenedData.length > 0 ? (
     <FlatList
       data={flattenedData}
       keyExtractor={(item) => item.id}
@@ -52,15 +58,29 @@ const HistoryList = () => {
       renderItem={historyJSX}
       onEndReached={endRechedHandler}
       onEndReachedThreshold={0.1}
-      // ListFooterComponent={
-      //   isFetchingNextPage ? (
-      //     <View style={{ alignItems: "center", padding: 20 }}>
-      //       <Text>로딩 중...</Text>
-      //     </View>
-      //   ) : null
-      // }
+      ListFooterComponent={
+        isFetchingNextPage ? (
+          <LoadingContainer>
+            <LoadingExplain>{`보고 내역을\n가져오고 있습니다`}</LoadingExplain>
+          </LoadingContainer>
+        ) : null
+      }
     />
+  ) : (
+    <NoData />
   );
 };
 
 export default HistoryList;
+
+const LoadingExplain = styled.Text`
+  color: ${Colors.highlight.highlight_0};
+  text-align: center;
+  font-size: 36px;
+`;
+
+const LoadingContainer = styled.View`
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+`;

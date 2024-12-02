@@ -60,7 +60,7 @@ const HistoryLayout = () => {
         />
       </CalendarButtonContainer>
 
-      <HistoryList />
+      <HistoryList selectDay={selectDay} />
 
       <BottomSheet isVisible={isCalendarOpen} buttonHandler={buttonHandler}>
         <CalendarCompo selectDay={selectDay} getSelectDay={getSelectDay} />
